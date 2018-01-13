@@ -1,0 +1,25 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/springsecurity?useUnicode=true&characterEncoding=utf-8
+    username: root
+#    password: 123456
+    password: root
+## close session
+  session:
+    store-type: none
+
+server:
+  port: 8090
+
+## close default configuration
+#security:
+#  basic:
+#    enabled: false
+
+#example:
+#  security:
+#    browser:
+#    自定义登录页面
+#      loginPage: /demo-signIn.html
+#      loginType: REDIRECT
