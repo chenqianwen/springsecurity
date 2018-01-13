@@ -12,4 +12,8 @@ public class SecurityProperties {
     @Setter
     private BrowserProperties browser = new BrowserProperties();
 
+    @Getter
+    @Setter
+    private ValidateCodeProperties code = new ValidateCodeProperties();
+
 }

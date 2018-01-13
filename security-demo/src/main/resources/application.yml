@@ -19,7 +19,18 @@ server:
 
 #example:
 #  security:
+#   验证码配置---
+#    code:
+#     图片验证码配置---
+#      image:
+#     图片验证码长度
+#        length: 6
+#        width: 100
+#     需要图片验证的url
+#        url: /user/*
+#    浏览器配置---
 #    browser:
 #    自定义登录页面
 #      loginPage: /demo-signIn.html
+#    自定义返回格式 (JSON/REDIRECT)
 #      loginType: REDIRECT
