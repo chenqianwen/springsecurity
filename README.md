@@ -46,8 +46,8 @@
         
         
         ValidateCodeProcessor 处理整个验证码生成流程：生成，储存，发送
-
-
+-- 子类实例化后的名称要以ValidateCodeProcessor结尾
+        
 ServletWebRequest: spring的工具类，封装请求和相应。包含了ServletHttpRequest,ServletHttpResponse
 
 AuthenticationManager : 选择provider来处理传进来的token
