@@ -10,13 +10,9 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ImageCode {
+public class ValidateCode {
     /**
-     *  展示的图片
-     */
-    private BufferedImage image;
-    /**
-     *  随机数，生成图片
+     *  随机数
      */
     private String code;
     /**
@@ -25,12 +21,10 @@ public class ImageCode {
     private LocalDateTime expireTime;
 
     /**
-     * @param image
      * @param code
      * @param expireIn 多少秒内过期
      */
-    public ImageCode(BufferedImage image, String code, int expireIn) {
-        this.image = image;
+    public ValidateCode(String code, int expireIn) {
         this.code = code;
         this.expireTime = LocalDateTime.now().plusSeconds(expireIn);
     }

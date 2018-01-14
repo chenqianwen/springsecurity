@@ -6,7 +6,7 @@ import lombok.Data;
  * 配置图形验证码的属性
  */
 @Data
-public class ImageCodeProperties {
+public class ImageCodeProperties extends SmsCodeProperties{
     /**
      * 默认宽度
      */
@@ -16,16 +16,9 @@ public class ImageCodeProperties {
      */
     private int height = 23;
     /**
-     * 默认验证码数字个数
+     * 默认设置4位长度的验证码
      */
-    private int length = 4;
-    /**
-     * 默认验证码实效的时间秒数
-     */
-    private int expireIn = 60;
-    /**
-     * 需要验证图片验证码的url
-     * 如；/user,/user/*
-     */
-    private String url;
+    public ImageCodeProperties() {
+        setLength(4);
+    }
 }

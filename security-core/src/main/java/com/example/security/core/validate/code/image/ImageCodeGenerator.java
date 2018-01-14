@@ -1,26 +1,22 @@
-package com.example.security.core.validate.code;
+package com.example.security.core.validate.code.image;
 
 import com.example.security.core.properties.ImageCodeProperties;
 import com.example.security.core.properties.SecurityProperties;
+import com.example.security.core.validate.code.ValidateCodeGenerator;
+import com.example.security.core.validate.code.image.ImageCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.context.request.ServletWebRequest;
 
-import javax.imageio.ImageIO;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
 
 /**
  * 默认的图片验证码的生成器
  */
-public class ImageCodeGenerator implements ValidateCodeGenerator{
+public class ImageCodeGenerator implements ValidateCodeGenerator {
 
     @Setter
     @Getter

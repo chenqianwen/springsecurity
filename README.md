@@ -34,9 +34,28 @@
     
  - 验证码的生成逻辑可配置
         1.security-core中默认有图形验证码的生成器
-        2.demo中可实现ValidateCodeGenerator结构，重写图形验证码生成
+        2.demo中可实现ValidateCodeGenerator接口，重写图形验证码生成
+        
+ - 短信验证码的长度可配置
+        1.security-core中默认有短信验证码的长度
+        2.demo中可配置短信验证码的长度参数覆盖1中的参数
+        
+ - 短信验证码的发送逻辑可配置
+        1.security-core中默认有短信验证发送逻辑DefaultSmsCodeSender
+        2.demo中可实现SmsCodeSender接口，重写发送短信的逻辑
+        
+        
+        ValidateCodeProcessor 处理整个验证码生成流程：生成，储存，发送
 
 
+ServletWebRequest: spring的工具类，封装请求和相应。包含了ServletHttpRequest,ServletHttpResponse
+
+AuthenticationManager : 选择provider来处理传进来的token
+AuthenticationProvider : 接口 supports方法 判断支Token的类型
+
+UsernamePasswordAuthenticationToken 中
+    private final Object principal; // 用户名
+    private Object credentials;// 密码
 
 ## 功能
 - 登录/注销

@@ -11,4 +11,8 @@ public class ValidateCodeProperties {
     @Getter
     @Setter
     private ImageCodeProperties image = new ImageCodeProperties();
+
+    @Getter
+    @Setter
+    private SmsCodeProperties sms = new SmsCodeProperties();
 }

@@ -1,8 +1,7 @@
 package com.example.code;
 
-import com.example.security.core.validate.code.ImageCode;
+import com.example.security.core.validate.code.image.ImageCode;
 import com.example.security.core.validate.code.ValidateCodeGenerator;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**

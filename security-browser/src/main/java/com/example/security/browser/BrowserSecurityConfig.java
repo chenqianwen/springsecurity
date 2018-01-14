@@ -1,14 +1,16 @@
 package com.example.security.browser;
 
+import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.example.security.core.properties.SecurityProperties;
-import com.example.security.core.validate.code.ValidateCodeFilter;
+import com.example.security.core.validate.code.SmsCodeFilter;
+import com.example.security.core.validate.code.ValidateCodeFilter1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -35,11 +37,15 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     private AuthenticationFailureHandler authFailureHandler;
 
+    @Qualifier("dataSource")
     @Autowired
     private DataSource dataSource;
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -63,10 +69,15 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        ValidateCodeFilter validateCodeFilter = new ValidateCodeFilter();
+        ValidateCodeFilter1 validateCodeFilter = new ValidateCodeFilter1();
         validateCodeFilter.setAuthenticationFailureHandler(authFailureHandler);
         validateCodeFilter.setSecurityProperties(securityProperties);
         validateCodeFilter.afterPropertiesSet();
+
+        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+        smsCodeFilter.setAuthenticationFailureHandler(authFailureHandler);
+        smsCodeFilter.setSecurityProperties(securityProperties);
+        smsCodeFilter.afterPropertiesSet();
 
         // 默认的登陆页面
         String defaultLoginPage = securityProperties.getBrowser().getLoginPage();
@@ -80,7 +91,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
          *  http.formLogin() : 浏览器中该验证是跳转到一个form表单,登录验证
          */
 
-        http.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+              // 在UsernamePasswordAuthenticationFilter过滤器之前增加smsCodeFilter，validateCodeFilter过滤器
+            .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
             .formLogin()
                 .loginPage("/authentication/require")// 指定跳转到的url
                 .loginProcessingUrl("/authentication/form")//登录请求拦截的url,也就是form表单提交时指定的action
@@ -93,10 +106,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
                 .userDetailsService(userDetailsService)
                 .and()
             .authorizeRequests()
-                .antMatchers("/authentication/require",defaultLoginPage,"/code/image").permitAll()//匹配该url则不需要验证
+                .antMatchers("/authentication/require",defaultLoginPage,"/code/*").permitAll()//匹配该url则不需要验证
                 .anyRequest()
                 .authenticated()
                 .and()
-            .csrf().disable();//禁用跨站请求伪造功能
+            .csrf().disable()//禁用跨站请求伪造功能
+            .apply(smsCodeAuthenticationSecurityConfig);//新增自定义配置
     }
 }
