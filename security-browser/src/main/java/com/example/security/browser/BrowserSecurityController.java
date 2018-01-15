@@ -1,6 +1,7 @@
 package com.example.security.browser;
 
 import com.example.security.browser.support.SimpleResponse;
+import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -38,12 +39,13 @@ public class BrowserSecurityController {
     private SecurityProperties securityProperties;
 
     /**
-     * 需要身份验证时
+     * 需要身份验证时，跳转到这里
+     * 如果是
      * @param request
      * @param response
      * @return
      */
-    @RequestMapping("/authentication/require")
+    @RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // 从session中取请求
@@ -52,7 +54,8 @@ public class BrowserSecurityController {
             // 引发跳转的请求的url
             String redirectUrl = savedRequest.getRedirectUrl();
             logger.info("引发跳转的请求的url:"+redirectUrl);
-            if (StringUtils.endsWithIgnoreCase(toString(),".html")) {
+            // 如果是
+            if (StringUtils.endsWithIgnoreCase(redirectUrl,".html")) {
                 redirectStrategy.sendRedirect(request,response,securityProperties.getBrowser().getLoginPage());
             }
         }

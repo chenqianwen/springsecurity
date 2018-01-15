@@ -90,7 +90,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
          *  http.httpBasic() : 浏览器中该验证是一个弹窗,登录验证
          *  http.formLogin() : 浏览器中该验证是跳转到一个form表单,登录验证
          */
-
         http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
               // 在UsernamePasswordAuthenticationFilter过滤器之前增加smsCodeFilter，validateCodeFilter过滤器
             .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
