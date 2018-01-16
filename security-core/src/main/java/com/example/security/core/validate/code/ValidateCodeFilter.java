@@ -40,7 +40,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      * 验证码校验失败的处理器
      */
     @Autowired
-    private AuthenticationFailureHandler authenticationFailureHandler;
+    private AuthenticationFailureHandler iAuthenticationFailureHandler;
 
     /**
      * 系统配置信息
@@ -56,6 +56,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
     /**
      * 存放所有需要校验验证码的url
+     * 例如：{"/authentication/form" : IMAGE}
      */
     private Map<String,ValidateCodeType> urlMap = new HashedMap();
 
@@ -71,13 +72,20 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-        // 需要验证图片验证码的url
+
+        // 获取配置的 -- 需要验证图片验证码的url
         String imageUrl = securityProperties.getCode().getImage().getUrl();
+        // 解析需要校验的 --配置的url
+        addUrlToMap(imageUrl,ValidateCodeType.IMAGE);
+        //  默认的需要校验图片验证码的URL 即：处理登录请求的的URL
+        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM,ValidateCodeType.IMAGE);
+
         // 需要验证短信验证码的url
         String smsUrl = securityProperties.getCode().getSms().getUrl();
-
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM,ValidateCodeType.IMAGE);
-        addUrlTOMap(imageUrl,ValidateCodeType.IMAGE);
+        // 解析需要校验的 --配置的url
+        addUrlToMap(smsUrl, ValidateCodeType.SMS);
+        // 处理手机登录请求的的URL
+        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
 
     }
 
@@ -86,7 +94,7 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      * @param configUrl
      * @param type
      */
-    protected void addUrlTOMap(String configUrl,ValidateCodeType type){
+    protected void addUrlToMap(String configUrl,ValidateCodeType type){
         if (StringUtils.isNotBlank(configUrl)) {
             String[] urs = StringUtils.splitByWholeSeparatorPreserveAllTokens(configUrl, ",");
             if (urs != null) {
@@ -99,49 +107,48 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-
+        // 若该请求需要验证，获取对应的验证码类型，否则为null
         ValidateCodeType type = getValidateCodeType(request);
 
         if (type != null) {
             logger.info("校验请求（"+request.getRequestURI()+")中的验证码，验证码类型："+ type);
             try {
-                validateCodeProcessorHolder.findValidateCodeProcessor(type)
-                        .validate(new ServletWebRequest(request,response));
-                logger.info("校验码通过");
+
+                // 通过校验器的类型 获取对应的验证码处理器
+                ValidateCodeProcessor validateCodeProcessor = validateCodeProcessorHolder.findValidateCodeProcessor(type);
+
+                // 校验 验证码
+                validateCodeProcessor.validate(new ServletWebRequest(request,response));
+
+                logger.info("校验码通过*******");
             }   catch (ValidateCodeException e) {
-                authenticationFailureHandler.onAuthenticationFailure(request,response,e);
+                /**
+                 * 检验码 不通过会抛出 ValidateCodeException 异常
+                 * 校验失败时，调用自定义的认证异常处理器：html请求则跳转到错误页面，json请求则返回json信息
+                 */
+                iAuthenticationFailureHandler.onAuthenticationFailure(request,response,e);
                 return;
             }
         }
         filterChain.doFilter(request,response);
     }
 
+    /**
+     * 获取校验码的类型，如果当前请求不需要校验，则返回null
+     *
+     * @param request
+     * @return
+     */
     private ValidateCodeType getValidateCodeType(HttpServletRequest request) {
-    }
-
-    private void validate(ServletWebRequest request) throws ServletRequestBindingException, ValidateCodeException {
-        // 对应的key
-        String sessionKey = ValidateCodeProcessor.SESSION_KEY_PREFIX+"IMAGE";
-        // 存在session中的验证码
-        ImageCode codeInSession = (ImageCode)sessionStrategy.getAttribute(request, sessionKey);
-        // 在请求中的验证码
-        String codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), "imageCode");
-
-        if (StringUtils.isBlank(codeInRequest)) {
-            throw new ValidateCodeException("验证码的值不能为空");
+        ValidateCodeType result = null;
+        if (!StringUtils.equalsIgnoreCase(request.getMethod(), "get")) {
+            Set<String> urls = urlMap.keySet();
+            for (String url : urls) {
+                if (pathMatcher.match(url, request.getRequestURI())) {
+                    result = urlMap.get(url);
+                }
+            }
         }
-
-        if (codeInSession == null) {
-            throw new ValidateCodeException("验证码不存在");
-        }
-
-        if (codeInSession.isExpired()) {
-            throw new ValidateCodeException("验证码已过期");
-        }
-
-        if (!StringUtils.equals(codeInSession.getCode(),codeInRequest)) {
-            throw new ValidateCodeException("验证码不匹配");
-        }
-        sessionStrategy.removeAttribute(request,sessionKey);
+        return result;
     }
 }

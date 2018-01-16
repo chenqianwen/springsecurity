@@ -1,5 +1,6 @@
 package com.example.security.core.validate.code.impl;
 
+import com.example.security.core.validate.code.ValidateCode;
 import com.example.security.core.validate.code.ValidateCodeBeanConfig;
 import com.example.security.core.validate.code.ValidateCodeException;
 import com.example.security.core.validate.code.ValidateCodeGenerator;
@@ -9,11 +10,28 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.social.connect.web.HttpSessionSessionStrategy;
 import org.springframework.social.connect.web.SessionStrategy;
+import org.springframework.web.bind.ServletRequestBindingException;
+import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import java.util.Map;
 
-public abstract class AbstractValidateCodeProcessor<C> implements ValidateCodeProcessor {
+
+/**
+ *
+ * 验证码的抽象父类：
+ * 验证码处理器 -- 子类实例化时的bean名称格式如下即可：
+ * ValidateCodeType类型枚举中的名称小写(写例如：sms) + CodeProcessor字符串 = smsCodeProcessor
+ *
+ * 验证码生成器 -- 子类实例化时的bean名称格式如下即可：
+ * ValidateCodeType类型枚举中的名称小写(写例如：sms) + ValidateCodeGenerator字符串 = smsValidateCodeGenerator
+ *
+ * 综上：
+ * 根据子类，即可通过子类名称获取对应的 验证码处理器 和 验证码生成器
+ *
+ * @param <C>
+ */
+public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> implements ValidateCodeProcessor {
 
 
     private SessionStrategy sessionStrategy = new HttpSessionSessionStrategy();
@@ -38,8 +56,6 @@ public abstract class AbstractValidateCodeProcessor<C> implements ValidateCodePr
         //  发送出去
         send(request,validateCode);
     }
-
-
 
     /**
      * 生成校验码
@@ -97,6 +113,58 @@ public abstract class AbstractValidateCodeProcessor<C> implements ValidateCodePr
      * @throws Exception
      */
     protected abstract void send(ServletWebRequest request, C validateCode) throws Exception;
+
+    /**
+     * 校验 验证码
+     * @param request
+     */
+    @Override
+    public void validate(ServletWebRequest request) {
+        // 获取验证码的类型
+        ValidateCodeType processorType = getValidateCodeType();
+
+        // 获取验证码 对应的form 的参数名称
+        String paramNameOnValidate = processorType.getParamNameOnValidate();
+
+        // 获取验证码 对应的存在session中的key
+        String sessionKey = getSessionKey();
+
+        // 通过请求获取Session中的 具体的验证码实现类
+        C codeInSession = (C) sessionStrategy.getAttribute(request, sessionKey);
+
+        String codeInRequest;
+        try {
+            // 通过参数名称 获取请求中的 验证码的值
+            codeInRequest = ServletRequestUtils.getStringParameter(request.getRequest(), paramNameOnValidate);
+        } catch (ServletRequestBindingException e) {
+            throw new ValidateCodeException("获取验证码的值失败");
+        }
+
+        if (StringUtils.isBlank(codeInRequest)) {
+            throw new ValidateCodeException(processorType + "验证码的值不能为空");
+        }
+
+        if (codeInSession == null) {
+            throw new ValidateCodeException(processorType + "验证码不存在");
+        }
+
+        if (codeInSession.isExpired()) {
+            sessionStrategy.removeAttribute(request, sessionKey);
+            throw new ValidateCodeException(processorType + "验证码已过期");
+        }
+
+        if (!StringUtils.equals(codeInSession.getCode(), codeInRequest)) {
+            throw new ValidateCodeException(processorType + "验证码不匹配");
+        }
+
+        /**
+         *
+         * 验证码正确时 移除session会话中存在的 关于验证码 键-值对
+         *
+         * 验证码错误是 抛出ValidateCodeException异常
+         */
+        sessionStrategy.removeAttribute(request, sessionKey);
+    }
 
 
     /**

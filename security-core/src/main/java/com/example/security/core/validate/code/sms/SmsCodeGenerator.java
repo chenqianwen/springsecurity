@@ -19,7 +19,7 @@ import java.util.Random;
 /**
  * 默认的短信验证码的生成器
  */
-@Component
+@Component("smsValidateCodeGenerator")
 public class SmsCodeGenerator implements ValidateCodeGenerator {
 
     @Autowired

@@ -17,15 +17,15 @@ public class ValidateCodeBeanConfig {
 
     /**
      * 系统启动时，初始化这个bean前
-     * 如果能找到imageCodeGenerator名字的bean，那么不会初始化
+     * 如果能找到imageValidateCodeGenerator名字的bean，那么不会初始化
      * @return
      */
     @Bean
-    @ConditionalOnMissingBean(name = "imageCodeGenerator")
+    @ConditionalOnMissingBean(name = "imageValidateCodeGenerator")
     public ValidateCodeGenerator imageCodeGenerator () {
-        ImageCodeGenerator codeGenerator = new ImageCodeGenerator();
-        codeGenerator.setSecurityProperties(securityProperties);
-        return codeGenerator;
+        ImageCodeGenerator imageCodeGenerator = new ImageCodeGenerator();
+        imageCodeGenerator.setSecurityProperties(securityProperties);
+        return imageCodeGenerator;
     }
     /**
      * 系统启动时，初始化这个bean前

@@ -3,7 +3,7 @@ package com.example.security.core.properties;
 public interface SecurityConstants {
 
     /**
-     * 默尔的处理验证的url前缀
+     * 默认的的处理码处理器 的url前缀
      */
     public static final String DEFAULT_VALIDATE_CODE_URL_PREFIX = "/code";
     /**
@@ -12,11 +12,11 @@ public interface SecurityConstants {
      */
     public static final String DEFAULT_UNAUTHENTICATION_URL = "/authentication/require";
     /**
-     * 默认的用户名密码登录请求处理url
+     * 默认的处理用户名密码登录请求url
      */
     public static final String DEFAULT_LOGIN_PROCESSING_URL_FORM = "/authentication/form";
     /**
-     * 默认的手机验证码登录请求处理url
+     * 默认的处理手机验证码登录请求url
      */
     public static final String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/authentication/mobile";
     /**

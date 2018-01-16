@@ -56,7 +56,8 @@ public class BrowserSecurityController {
             logger.info("引发跳转的请求的url:"+redirectUrl);
             // 如果是
             if (StringUtils.endsWithIgnoreCase(redirectUrl,".html")) {
-                redirectStrategy.sendRedirect(request,response,securityProperties.getBrowser().getLoginPage());
+                String loginPage = securityProperties.getBrowser().getLoginPage();
+                redirectStrategy.sendRedirect(request,response,loginPage);
             }
         }
         return new SimpleResponse("访问的服务需要身份验证");

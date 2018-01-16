@@ -23,7 +23,7 @@ import java.io.IOException;
  * SimpleUrlAuthenticationFailureHandler: spring默认的失败处理器
  */
 @Component
-public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler{
+public class IAuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler{
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -47,7 +47,7 @@ public class AuthFailureHandler extends SimpleUrlAuthenticationFailureHandler{
             response.setContentType("application/json;charset=UTF-8");
             response.getWriter().write(objectMapper.writeValueAsString(new SimpleResponse(e.getMessage())));
         }
-        // 如果自定义的方式不是json，则调用spring默认的方式，跳转到作物页面上
+        // 如果自定义的方式不是json，则调用spring默认的方式，跳转到错误页面上
         else {
             super.onAuthenticationFailure(request,response,e);
         }

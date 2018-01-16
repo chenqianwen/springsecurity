@@ -1,5 +1,6 @@
 package com.example.security.core.validate.code;
 
+import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
 import com.example.security.core.validate.code.image.ImageCode;
 import com.example.security.core.validate.code.sms.SmsCodeSender;
@@ -22,19 +23,15 @@ import java.util.Map;
 @RestController
 public class ValidateCodeController {
 
-    /**
-     *  收集所有的ValidateCodeProcessor 接口的实现
-     *  {实现类的名字 ： 类}  ===> [{"imageCodeProcessor",ImageCodeProcessor}......]
-     */
+
     @Autowired
-    private Map<String,ValidateCodeProcessor> validateCodeProcessors;
+    private ValidateCodeProcessorHolder validateCodeProcessorHolder;
 
 
-    @GetMapping("/code/{type}")
+    @GetMapping(SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/{type}")
     public void createCode(HttpServletRequest request, HttpServletResponse response, @PathVariable String type) throws Exception {
-
         // 获取对应的处理器
-        ValidateCodeProcessor validateCodeProcessor = validateCodeProcessors.get(type + "CodeProcessor");
+        ValidateCodeProcessor validateCodeProcessor = validateCodeProcessorHolder.findValidateCodeProcessor(type);
         // 创建验证码
         validateCodeProcessor.create(new ServletWebRequest(request, response));
     }

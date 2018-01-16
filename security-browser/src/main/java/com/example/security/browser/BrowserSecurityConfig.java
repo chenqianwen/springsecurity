@@ -3,6 +3,7 @@ package com.example.security.browser;
 import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.example.security.core.properties.SecurityProperties;
 import com.example.security.core.validate.code.SmsCodeFilter;
+import com.example.security.core.validate.code.ValidateCodeFilter;
 import com.example.security.core.validate.code.ValidateCodeFilter1;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +33,10 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
     private SecurityProperties securityProperties;
 
     @Autowired
-    private AuthenticationSuccessHandler authSuccessHandler;
+    private AuthenticationSuccessHandler iAuthenticationSuccessHandler;
 
     @Autowired
-    private AuthenticationFailureHandler authFailureHandler;
+    private AuthenticationFailureHandler iAuthenticationFailureHandler;
 
     @Qualifier("dataSource")
     @Autowired
@@ -46,6 +47,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    private ValidateCodeFilter validateCodeFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder(){
@@ -69,15 +73,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        ValidateCodeFilter1 validateCodeFilter = new ValidateCodeFilter1();
-        validateCodeFilter.setAuthenticationFailureHandler(authFailureHandler);
-        validateCodeFilter.setSecurityProperties(securityProperties);
-        validateCodeFilter.afterPropertiesSet();
-
-        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
-        smsCodeFilter.setAuthenticationFailureHandler(authFailureHandler);
-        smsCodeFilter.setSecurityProperties(securityProperties);
-        smsCodeFilter.afterPropertiesSet();
 
         // 默认的登陆页面
         String defaultLoginPage = securityProperties.getBrowser().getLoginPage();
@@ -90,14 +85,15 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
          *  http.httpBasic() : 浏览器中该验证是一个弹窗,登录验证
          *  http.formLogin() : 浏览器中该验证是跳转到一个form表单,登录验证
          */
-        http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        http
+            //.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
               // 在UsernamePasswordAuthenticationFilter过滤器之前增加smsCodeFilter，validateCodeFilter过滤器
             .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
             .formLogin()
                 .loginPage("/authentication/require")// 指定跳转到的url
                 .loginProcessingUrl("/authentication/form")//登录请求拦截的url,也就是form表单提交时指定的action
-                .successHandler(authSuccessHandler)//表单登陆之后调用自定义的 认证成功处理器
-                .failureHandler(authFailureHandler)//表单登陆之后调用自定义的 认证失败处理器
+                .successHandler(iAuthenticationSuccessHandler)//表单登陆之后调用自定义的 认证成功处理器
+                .failureHandler(iAuthenticationFailureHandler)//表单登陆之后调用自定义的 认证失败处理器
                 .and()
             .rememberMe()
                 .tokenRepository(persistentTokenRepository())

@@ -3,6 +3,9 @@ package com.example.security.core.validate.code;
 
 import com.example.security.core.properties.SecurityConstants;
 
+/**
+ *
+ */
 public enum ValidateCodeType {
 	
 	/**
