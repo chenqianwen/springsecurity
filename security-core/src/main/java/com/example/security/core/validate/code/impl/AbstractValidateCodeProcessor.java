@@ -173,9 +173,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      * @param request
      * @return
      */
-    private String getProcessorType(ServletWebRequest request) {
-        return StringUtils.substringAfter(request.getRequest().getRequestURI(),"/code/");
-    }
+//    private String getProcessorType(ServletWebRequest request) {
+//        return StringUtils.substringAfter(request.getRequest().getRequestURI(),"/code/");
+//    }
 
 
 }
