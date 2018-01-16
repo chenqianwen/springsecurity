@@ -24,12 +24,4 @@ public class ImageCodeProcessor extends AbstractValidateCodeProcessor<ImageCode>
 
     }
 
-    /**
-     * 校验图形验证码
-     * @param servletWebRequest
-     */
-    @Override
-    public void validate(ServletWebRequest servletWebRequest) {
-
-    }
 }

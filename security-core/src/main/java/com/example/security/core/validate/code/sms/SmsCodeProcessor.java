@@ -13,7 +13,7 @@ import javax.imageio.ImageIO;
 /**
  * 短信验证码处理器
  */
-@Component("smsCodeProcessor")
+@Component("smsValidateCodeProcessor")
 public class SmsCodeProcessor extends AbstractValidateCodeProcessor<ValidateCode>{
 
     /**

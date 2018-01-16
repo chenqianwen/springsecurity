@@ -20,7 +20,7 @@ public class ValidateCodeBeanConfig {
      * 如果能找到imageValidateCodeGenerator名字的bean，那么不会初始化
      * @return
      */
-    @Bean
+    @Bean("imageValidateCodeGenerator")
     @ConditionalOnMissingBean(name = "imageValidateCodeGenerator")
     public ValidateCodeGenerator imageCodeGenerator () {
         ImageCodeGenerator imageCodeGenerator = new ImageCodeGenerator();
