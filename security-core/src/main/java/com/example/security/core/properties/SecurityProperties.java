@@ -16,4 +16,8 @@ public class SecurityProperties {
     @Setter
     private ValidateCodeProperties code = new ValidateCodeProperties();
 
+    @Getter
+    @Setter
+    private SocialProperties socialProperties = new SocialProperties();
+
 }

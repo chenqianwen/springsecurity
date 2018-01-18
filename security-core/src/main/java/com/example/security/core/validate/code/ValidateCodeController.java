@@ -23,7 +23,6 @@ import java.util.Map;
 @RestController
 public class ValidateCodeController {
 
-
     @Autowired
     private ValidateCodeProcessorHolder validateCodeProcessorHolder;
 

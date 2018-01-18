@@ -166,16 +166,4 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         sessionStrategy.removeAttribute(request, sessionKey);
     }
 
-
-    /**
-     * 根据请求的url获取校验码的类型
-     * 返回结果 image 或者 sms
-     * @param request
-     * @return
-     */
-//    private String getProcessorType(ServletWebRequest request) {
-//        return StringUtils.substringAfter(request.getRequest().getRequestURI(),"/code/");
-//    }
-
-
 }
