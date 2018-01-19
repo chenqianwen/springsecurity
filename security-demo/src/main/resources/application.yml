@@ -17,15 +17,15 @@ server:
 #  basic:
 #    enabled: false
 
-#example:
-#  security:
+example:
+  security:
 #   验证码配置---
-#    code:
+    code:
 #     图片验证码配置---
-#      image:
+      image:
 #     图片验证码长度
-#        length: 6
-#        width: 100
+        length: 4
+        width: 100
 #     需要图片验证的url
 #        url: /user/*
 #    浏览器配置---
@@ -34,3 +34,6 @@ server:
 #      loginPage: /demo-signIn.html
 #    自定义返回格式 (JSON/REDIRECT)
 #      loginType: REDIRECT
+    social:
+      qq:
+        app-id:
