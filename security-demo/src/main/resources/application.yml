@@ -9,8 +9,12 @@ spring:
   session:
     store-type: none
 
+
 server:
   port: 8090
+  session:
+#  失效时间单位秒:springboot超时时间最少是1分钟(TomcatEmbeddedServletContainerFactory中getSessionTimeoutInMinutes方法)
+    timeout: 10
 
 ## close default configuration
 #security:

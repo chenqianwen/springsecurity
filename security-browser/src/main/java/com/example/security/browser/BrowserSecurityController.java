@@ -71,6 +71,11 @@ public class BrowserSecurityController {
         return new SimpleResponse("访问的服务需要身份验证");
     }
 
+    /**
+     * 获取社交登录的用户信息
+     * @param request
+     * @return
+     */
     @GetMapping("/social/user")
     public SocialUserInfo getSocialUserInfo(HttpServletRequest request) {
 
@@ -83,5 +88,16 @@ public class BrowserSecurityController {
         socialUserInfo.setHeadImg(connectionFromSession.getImageUrl());
 
         return socialUserInfo;
+    }
+
+    /**
+     * session失效跳转到这里
+     * @return
+     */
+    @GetMapping("/session/invalid")
+    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
+    public SimpleResponse sessionInvalid() {
+        String message = "session失效";
+        return new SimpleResponse(message);
     }
 }

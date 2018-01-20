@@ -109,6 +109,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
                 .tokenValiditySeconds(defaultRememberMeSeconds)
                 .userDetailsService(userDetailsService)
                 .and()
+            .sessionManagement()
+                .invalidSessionUrl("/session/invalid")
+                .and()
             .authorizeRequests()
                 .antMatchers(
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
@@ -116,7 +119,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
                         defaultLoginPage,
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
                         securityProperties.getBrowser().getSignUpUrl(),
-                        "/user/regist"
+                        "/user/regist",
+                        "/session/invalid"
                         )
                 .permitAll()//匹配该url则不需要验证
                 .anyRequest()
