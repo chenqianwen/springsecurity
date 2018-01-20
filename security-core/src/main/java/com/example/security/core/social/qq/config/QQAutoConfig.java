@@ -13,7 +13,7 @@ import org.springframework.social.connect.ConnectionFactory;
  * 当配置文件中app-id配置值之后，所有的配置才会生效
  */
 @Configuration
-@ConditionalOnProperty(prefix = "security.social.qq",name = "app-id")
+@ConditionalOnProperty(prefix = "example.security.social.qq",name = "app-id")
 public class QQAutoConfig extends SocialAutoConfigurerAdapter{
 
     @Autowired
@@ -21,7 +21,7 @@ public class QQAutoConfig extends SocialAutoConfigurerAdapter{
 
     @Override
     protected ConnectionFactory<?> createConnectionFactory() {
-        QQProperties qqConfig = securityProperties.getSocialProperties().getQq();
+        QQProperties qqConfig = securityProperties.getSocial().getQq();
         return new QQConnectionFactory(qqConfig.getProviderId(),qqConfig.getAppId(), qqConfig.getAppSecret());
     }
 }

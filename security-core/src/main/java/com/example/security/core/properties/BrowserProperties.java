@@ -8,6 +8,9 @@ public class BrowserProperties {
     // 默认的登录页面
     private String loginPage = "/default-signIn.html";
 
+    // 默认的注册页面
+    private String signUpUrl = "/default-signUp.html";
+
     // 默认的返回方式
     private LoginType loginType = LoginType.JSON;
 

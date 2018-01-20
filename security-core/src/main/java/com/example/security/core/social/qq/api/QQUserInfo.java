@@ -21,7 +21,25 @@ public class QQUserInfo {
      * 如果ret<0，会有相应的错误信息提示，返回数据全部用UTF-8编码。
      */
     private String msg;
+    /**
+     * 判断是否有数据丢失。如果应用不使用cache，不需要关心此参数。
+         0或者不返回：没有数据丢失，可以缓存。
+         1：有部分数据丢失或错误，不要缓存。
+     */
+    private String is_lost;
 
+    /**
+     * 	国家。
+     */
+    private String province;
+    /**
+     * 	市。
+     */
+    private String city;
+    /**
+     * 	出生年。
+     */
+    private String year;
     /**
      * 	用户在QQ空间的昵称。
      */

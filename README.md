@@ -56,6 +56,12 @@ AuthenticationProvider : 接口 supports方法 判断支Token的类型
 UsernamePasswordAuthenticationToken 中
     private final Object principal; // 用户名
     private Object credentials;// 密码
+    
+    
+    
+appid：应用的唯一标识。在OAuth2.0认证过程中，appid的值即为oauth_consumer_key的值。
+
+appkey：appid对应的密钥，访问用户资源时用来验证应用的合法性。在OAuth2.0认证过程中，appkey的值即为oauth_consumer_secret的值。
 
 ## 功能
 - 登录/注销

@@ -30,7 +30,7 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
          *
          * TokenStrategy.ACCESS_TOKEN_PARAMETER 策略是将access_token作为查询参数, 所以不需要URL_GET_USERINFO请求中放处理access_token
          */
-        super(appId, TokenStrategy.ACCESS_TOKEN_PARAMETER);
+        super(accessToken, TokenStrategy.ACCESS_TOKEN_PARAMETER);
 
         this.appId = appId;
 
@@ -38,9 +38,9 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
 
         String result = getRestTemplate().getForObject(url,String.class);
 
-        System.out.println(URL_GET_OPENID+result);
+        System.out.println("qq返回值："+URL_GET_OPENID+result);
 
-        this.openId = StringUtils.substringBetween(result,"\"openid\":","}");
+        this.openId = StringUtils.substringBetween(result,"\"openid\":\"","\"}");
     }
 
     @Override
@@ -55,6 +55,7 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
         QQUserInfo userInfo = null;
         try {
             userInfo = objectMapper.readValue(result, QQUserInfo.class);
+            userInfo.setOpenId(openId);
         } catch (Exception e) {
             throw new RuntimeException("获取用户信息失败");
         }

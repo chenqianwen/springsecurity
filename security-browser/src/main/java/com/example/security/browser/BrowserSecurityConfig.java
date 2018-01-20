@@ -1,6 +1,7 @@
 package com.example.security.browser;
 
 import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
 import com.example.security.core.validate.code.SmsCodeFilter;
 import com.example.security.core.validate.code.ValidateCodeFilter;
@@ -21,6 +22,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
@@ -47,6 +49,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    private SpringSocialConfigurer iSpringSocialConfigurer;
 
     @Autowired
     private ValidateCodeFilter validateCodeFilter;
@@ -86,6 +91,10 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
          *  http.formLogin() : 浏览器中该验证是跳转到一个form表单,登录验证
          */
         http
+            .apply(iSpringSocialConfigurer)//新增自定义配置
+                .and()
+            .apply(smsCodeAuthenticationSecurityConfig)
+                .and()
             //.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
               // 在UsernamePasswordAuthenticationFilter过滤器之前增加smsCodeFilter，validateCodeFilter过滤器
             .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
@@ -101,11 +110,19 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
                 .userDetailsService(userDetailsService)
                 .and()
             .authorizeRequests()
-                .antMatchers("/authentication/require",defaultLoginPage,"/code/*").permitAll()//匹配该url则不需要验证
+                .antMatchers(
+                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
+                        SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
+                        defaultLoginPage,
+                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
+                        securityProperties.getBrowser().getSignUpUrl(),
+                        "/user/regist"
+                        )
+                .permitAll()//匹配该url则不需要验证
                 .anyRequest()
                 .authenticated()
                 .and()
             .csrf().disable()//禁用跨站请求伪造功能
-            .apply(smsCodeAuthenticationSecurityConfig);//新增自定义配置
+            ;
     }
 }
