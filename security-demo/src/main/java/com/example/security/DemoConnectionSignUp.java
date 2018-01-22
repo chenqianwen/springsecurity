@@ -4,6 +4,10 @@ import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.stereotype.Component;
 
+/**
+ * 如果有ConnectionSignUp实例
+ * JdbcUsersConnectionRepository中执行execute方法，将实例返回的ID及connection数据存在数据库
+ */
 @Component
 public class DemoConnectionSignUp implements ConnectionSignUp{
 

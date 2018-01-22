@@ -36,6 +36,8 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required = false)
     private ConnectionSignUp connectionSignUp;
 
+    private UsersConnectionRepository usersConnectionRepository;
+
     /**
      * 默认的查询内存数据InMemoryUsersConnectionRepository
      * @param connectionFactoryLocator
@@ -55,7 +57,13 @@ public class SocialConfig extends SocialConfigurerAdapter {
         if (connectionSignUp != null) {
             repository.setConnectionSignUp(connectionSignUp);
         }
+        this.usersConnectionRepository = repository;
         return repository;
+    }
+
+    @Bean
+    public UsersConnectionRepository usersConnectionRepository() {
+        return usersConnectionRepository;
     }
 
     @Bean
