@@ -12,6 +12,7 @@ import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
 import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.social.connect.ConnectionFactoryLocator;
+import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
@@ -26,13 +27,20 @@ import java.security.Provider;
 public class SocialConfig extends SocialConfigurerAdapter {
 
 
-    @Qualifier("dataSource")
     @Autowired
     private DataSource dataSource;
 
     @Autowired
     private SecurityProperties securityProperties;
 
+    @Autowired(required = false)
+    private ConnectionSignUp connectionSignUp;
+
+    /**
+     * 默认的查询内存数据InMemoryUsersConnectionRepository
+     * @param connectionFactoryLocator
+     * @return
+     */
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(ConnectionFactoryLocator connectionFactoryLocator) {
         /**
@@ -43,19 +51,27 @@ public class SocialConfig extends SocialConfigurerAdapter {
         /**
          * 设置UserConnection表的前缀
          */
-        repository.setTablePrefix("");
+//        repository.setTablePrefix("");
+        if (connectionSignUp != null) {
+            repository.setConnectionSignUp(connectionSignUp);
+        }
         return repository;
     }
 
     @Bean
     public SpringSocialConfigurer iSpringSocialConfigurer() {
         //return new SpringSocialConfigurer();
-        String filterProcessesUrl = securityProperties.getSocial().getQq().getFilterProcessesUrl();
+        String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
         SpringSocialConfigurer iSpringSocialConfigurer = new ISpringSocialConfigurer(filterProcessesUrl);
         iSpringSocialConfigurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
         return iSpringSocialConfigurer;
     }
 
+    /**
+     * 这种写法自动会注入ConnectionFactoryLocator
+     * @param connectionFactoryLocator
+     * @return
+     */
     @Bean
     public ProviderSignInUtils providerSignInUtils (ConnectionFactoryLocator connectionFactoryLocator) {
         return new ProviderSignInUtils(connectionFactoryLocator,

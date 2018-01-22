@@ -8,6 +8,11 @@ import org.springframework.social.connect.UserProfile;
 
 public class QQAdapter implements ApiAdapter<QQ>{
 
+    /**
+     * 测试qq服务器是否可用
+     * @param qq
+     * @return
+     */
     @Override
     public boolean test(QQ qq) {
         return true;

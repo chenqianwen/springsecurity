@@ -5,7 +5,9 @@ import org.springframework.social.security.SpringSocialConfigurer;
 
 public class ISpringSocialConfigurer extends SpringSocialConfigurer {
 
-
+    /**
+     * 设置SocialAuthenticationFilter拦截器需要拦截的请求url
+     */
     private String filterProcessesUrl;
 
     public ISpringSocialConfigurer(String filterProcessesUrl) {

@@ -1,7 +1,6 @@
 package com.example.security;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -17,22 +16,21 @@ import org.springframework.stereotype.Component;
 import sun.security.util.Password;
 
 @Component
+@Slf4j
 public class MyUserDetailsService implements UserDetailsService,SocialUserDetailsService{
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.info("登录名："+username);
+        log.info("登录名："+username);
         return buildUser(username);
     }
 
     @Override
     public SocialUserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
-        logger.info("社交登录名："+userId);
+        log.info("社交登录名："+userId);
         return buildUser(userId);
     }
 
@@ -45,7 +43,7 @@ public class MyUserDetailsService implements UserDetailsService,SocialUserDetail
          * 模拟从数据库都出来的密码：
          */
         String password = passwordEncoder.encode("123456");
-        logger.info("数据库密码是："+password);
+        log.info("数据库密码是："+password);
 //        User user = new User(username,"123456", AuthorityUtils.commaSeparatedStringToAuthorityList("admin"));
         SocialUser user = new SocialUser(username, password, true, true,
                 true, true,

@@ -10,7 +10,4 @@ public class QQProperties extends SocialProperties{
 
     private String providerId = "qq";
 
-    private String filterProcessesUrl = "/auth";
-
-
 }

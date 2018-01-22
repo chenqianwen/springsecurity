@@ -3,11 +3,8 @@ package com.example.security.browser;
 import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
-import com.example.security.core.validate.code.SmsCodeFilter;
 import com.example.security.core.validate.code.ValidateCodeFilter;
-import com.example.security.core.validate.code.ValidateCodeFilter1;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -27,9 +24,8 @@ import org.springframework.social.security.SpringSocialConfigurer;
 import javax.sql.DataSource;
 
 @Configuration
+@Slf4j
 public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -81,11 +77,11 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
 
         // 默认的登陆页面
         String defaultLoginPage = securityProperties.getBrowser().getLoginPage();
-        logger.info("默认的登陆页面："+defaultLoginPage);
+        log.info("默认的登陆页面："+defaultLoginPage);
 
         // 默认的记住我的时间
         int defaultRememberMeSeconds = securityProperties.getBrowser().getRememberMeSeconds();
-        logger.info("默认的记住我的时间："+defaultRememberMeSeconds);
+        log.info("默认的记住我的时间："+defaultRememberMeSeconds);
         /**
          *  http.httpBasic() : 浏览器中该验证是一个弹窗,登录验证
          *  http.formLogin() : 浏览器中该验证是跳转到一个form表单,登录验证

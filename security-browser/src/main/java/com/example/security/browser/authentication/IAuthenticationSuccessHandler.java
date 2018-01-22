@@ -3,13 +3,8 @@ package com.example.security.browser.authentication;
 import com.example.security.core.properties.LoginType;
 import com.example.security.core.properties.SecurityProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.method.P;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
@@ -23,9 +18,7 @@ import java.io.IOException;
  *  SavedRequestAwareAuthenticationSuccessHandler: spring默认的成功处理器
  */
 @Component
-public class AuthSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
+public class IAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler{
 
     @Autowired
     private ObjectMapper objectMapper;

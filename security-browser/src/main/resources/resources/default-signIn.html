@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <title>默认的登陆页面</title>
 </head>
+<script type="text/javascript">
+    function refreshImg(){
+        var img = document.getElementById("img");
+        img.src = "/code/image?width=60&rnd=" + Math.random();
+    }
+</script>
 <body>
     <h3>默认的登陆</h3>
      <form action="/authentication/form" method="post">
@@ -20,7 +26,9 @@
                  <td>图形验证码：</td>
                  <td>
                      <input type="text" name="imageCode" >
-                     <img src="/code/image?width=200">
+                     <img id="img" src="/code/image?width=60"   title="看不清可单击图片刷新" onclick="this.src='/code/image?width=60&rnd='+Math.random()">
+                     <!--<img id="img" src="/code/image?width=60"  >-->
+                     <!--<a href="#" onclick="refreshImg();">看不清，换一张</a>-->
                  </td>
              </tr>
              <tr>
@@ -56,6 +64,9 @@
     <br/>
     <h3>社交登陆</h3>
      <a href="/login/qq">QQ登录</a>
+    SocialAuthenticationFilter过滤/auth请求。qq是QQProperties中的providerId值
+    <br/>
+     <a href="/login/weixin">微信登录</a>
     SocialAuthenticationFilter过滤/auth请求。qq是QQProperties中的providerId值
 </body>
 </html>

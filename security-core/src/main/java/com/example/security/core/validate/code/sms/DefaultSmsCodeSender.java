@@ -1,14 +1,12 @@
 package com.example.security.core.validate.code.sms;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class DefaultSmsCodeSender implements SmsCodeSender{
-
-    Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
     public void send(String mobile, String code) {
-        logger.info("向手机："+mobile+"**********************************发送短信验证码:"+code+"**********************************");
+        log.info("向手机："+mobile+"**********************************发送短信验证码:"+code+"**********************************");
     }
 }

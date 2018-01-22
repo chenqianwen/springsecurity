@@ -4,9 +4,8 @@ import com.example.security.browser.support.SimpleResponse;
 import com.example.security.browser.support.SocialUserInfo;
 import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -30,9 +29,8 @@ import java.io.IOException;
  * 处理请求
  */
 @RestController
+@Slf4j
 public class BrowserSecurityController {
-
-    private Logger logger = LoggerFactory.getLogger(getClass());
 
     // HttpSessionRequestCache ：当前请求缓存到session中
     private RequestCache requestCache = new HttpSessionRequestCache();
@@ -61,7 +59,7 @@ public class BrowserSecurityController {
         if (savedRequest != null) {
             // 引发跳转的请求的url
             String redirectUrl = savedRequest.getRedirectUrl();
-            logger.info("引发跳转的请求的url:"+redirectUrl);
+            log.info("引发跳转的请求的url:"+redirectUrl);
             // 如果是
             if (StringUtils.endsWithIgnoreCase(redirectUrl,".html")) {
                 String loginPage = securityProperties.getBrowser().getLoginPage();
