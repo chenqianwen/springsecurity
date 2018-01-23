@@ -133,7 +133,46 @@ OAuth2AuthenticationService:
             } else {
                 return null;
             }
-        }            
+        }     
+        
+SocialAuthenticationProvider: 真正认证社交登录逻辑：
+    通过usersConnectionRepository把用户信息去查询社交用户是否存在
+    List<String> userIds = this.usersConnectionRepository.findUserIdsWithConnection(connection);
+    具体实现如下：
+    public List<String> findUserIdsWithConnection(Connection<?> connection) {
+        ConnectionKey key = connection.getKey();
+        List<String> localUserIds = this.jdbcTemplate.queryForList("select userId from " + this.tablePrefix + "UserConnection where providerId = ? and providerUserId = ?", String.class, new Object[]{key.getProviderId(), key.getProviderUserId()});
+        if (localUserIds.size() == 0 && this.connectionSignUp != null) {
+            String newUserId = this.connectionSignUp.execute(connection);
+            if (newUserId != null) {
+                this.createConnectionRepository(newUserId).addConnection(connection);
+                return Arrays.asList(newUserId);
+            }
+        }
+        return localUserIds;
+    }
+    如果存在该社交用户，则构建出一个被认证的SocialAuthenticationToken。 完成认证。
+    如果不存在该社交用户：
+    如果UsersConnectionRepository配置了connectionSignUp属性，就会根据用户自己的实现返回一个新的newUserId，通过newUserId新增社交用户信息到数据库
+    public void addConnection(Connection<?> connection) {
+        try {
+            ConnectionData data = connection.createData();
+            int rank = (Integer)this.jdbcTemplate.queryForObject("select coalesce(max(rank) + 1, 1) as rank from " + this.tablePrefix + "UserConnection where userId = ? and providerId = ?", new Object[]{this.userId, data.getProviderId()}, Integer.class);
+            this.jdbcTemplate.update("insert into " + this.tablePrefix + "UserConnection (userId, providerId, providerUserId, rank, displayName, profileUrl, imageUrl, accessToken, secret, refreshToken, expireTime) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", new Object[]{this.userId, data.getProviderId(), data.getProviderUserId(), rank, data.getDisplayName(), data.getProfileUrl(), data.getImageUrl(), this.encrypt(data.getAccessToken()), this.encrypt(data.getSecret()), this.encrypt(data.getRefreshToken()), data.getExpireTime()});
+        } catch (DuplicateKeyException var4) {
+            throw new DuplicateConnectionException(connection.getKey());
+        }
+    }
+    如果UsersConnectionRepository没有配置了connectionSignUp属性，就会抛出异常throw new BadCredentialsException("Unknown access token");
+    在SocialAuthenticationFilter中doAuthentication就会捕获异常，调转到注册页面
+    if (this.signupUrl != null) {
+        this.sessionStrategy.setAttribute(new ServletWebRequest(request), ProviderSignInAttempt.SESSION_ATTRIBUTE, new ProviderSignInAttempt(token.getConnection()));
+        throw new SocialAuthenticationRedirectException(this.buildSignupUrl(request));
+    } else {
+        throw var5;
+    }
+    测试controller中用工具类进行注册，将对应的数据插入表中，下次社交登录就会查询到对应的数据
+      providerSignInUtils.doPostSignUp(username,new ServletWebRequest(request));           
         
         
 ServletWebRequest: spring的工具类，封装请求和相应。包含了ServletHttpRequest,ServletHttpResponse

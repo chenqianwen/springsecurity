@@ -36,7 +36,6 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required = false)
     private ConnectionSignUp connectionSignUp;
 
-    private UsersConnectionRepository usersConnectionRepository;
 
     /**
      * 默认的查询内存数据InMemoryUsersConnectionRepository
@@ -57,20 +56,16 @@ public class SocialConfig extends SocialConfigurerAdapter {
         if (connectionSignUp != null) {
             repository.setConnectionSignUp(connectionSignUp);
         }
-        this.usersConnectionRepository = repository;
         return repository;
     }
 
-    @Bean
-    public UsersConnectionRepository usersConnectionRepository() {
-        return usersConnectionRepository;
-    }
 
     @Bean
     public SpringSocialConfigurer iSpringSocialConfigurer() {
         //return new SpringSocialConfigurer();
         String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
         SpringSocialConfigurer iSpringSocialConfigurer = new ISpringSocialConfigurer(filterProcessesUrl);
+        // 如果没有查询到对应的社交用户信息，设置跳转到注册页面的URL
         iSpringSocialConfigurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
         return iSpringSocialConfigurer;
     }
