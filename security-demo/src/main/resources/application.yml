@@ -3,18 +3,18 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     url: jdbc:mysql://localhost:3306/springsecurity?useUnicode=true&characterEncoding=utf-8
     username: root
-    password: 123456
-#    password: root
+#    password: 123456
+    password: root
 ##  close session
   session:
-    store-type: none
+    store-type: redis
 
 
 server:
-  port: 8090
+  port: 8060
   session:
 #  失效时间单位秒:springboot超时时间最少是1分钟(TomcatEmbeddedServletContainerFactory中getSessionTimeoutInMinutes方法)
-    timeout: 10
+    timeout: 6000
 
 ## close default configuration
 #security:

@@ -5,6 +5,8 @@ import lombok.Data;
 @Data
 public class BrowserProperties {
 
+    private SessionProperties session = new SessionProperties();
+
     // 默认的登录页面
     private String loginPage = "/default-signIn.html";
 

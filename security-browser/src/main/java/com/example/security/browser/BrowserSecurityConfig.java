@@ -1,5 +1,7 @@
 package com.example.security.browser;
 
+import com.example.security.browser.session.IExpiredSessionStrategy;
+import com.example.security.browser.session.IInvalidSessionStrategy;
 import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
@@ -19,6 +21,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
+import org.springframework.security.web.session.InvalidSessionStrategy;
+import org.springframework.security.web.session.SessionInformationExpiredStrategy;
 import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
@@ -52,6 +56,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     private ValidateCodeFilter validateCodeFilter;
 
+    @Autowired
+    private SessionInformationExpiredStrategy iExpiredSessionStrategy;
+
+    @Autowired
+    private InvalidSessionStrategy iInvalidSessionStrategy;
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -73,11 +83,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-
-        // 默认的登陆页面
-        String defaultLoginPage = securityProperties.getBrowser().getLoginPage();
-        log.info("默认的登陆页面："+defaultLoginPage);
 
         // 默认的记住我的时间
         int defaultRememberMeSeconds = securityProperties.getBrowser().getRememberMeSeconds();
@@ -106,18 +111,25 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
                 .userDetailsService(userDetailsService)
                 .and()
             .sessionManagement()
-                .invalidSessionUrl("/session/invalid")
+                .invalidSessionStrategy(iInvalidSessionStrategy)
+                .maximumSessions(securityProperties.getBrowser().getSession().getMaximumSessions())//session最大session数值，后面登录踢掉前面登录
+                .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
+                .expiredSessionStrategy(iExpiredSessionStrategy)//session失效策略
+                .and()
                 .and()
             .authorizeRequests()
                 .antMatchers(
                         SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
                         SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-                        defaultLoginPage,
+                        securityProperties.getBrowser().getLoginPage(),
                         SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
                         securityProperties.getBrowser().getSignUpUrl(),
                         "/user/regist",
-                        "/session/invalid",
-                        "/connect"
+                        "/connect",
+                        "/connect/*",
+                        "/default-binding.html",
+                        securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".json",
+                        securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".html"
                         )
                 .permitAll()//匹配该url则不需要验证
                 .anyRequest()

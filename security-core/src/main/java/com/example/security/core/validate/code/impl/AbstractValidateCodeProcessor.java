@@ -83,7 +83,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
     private void save(ServletWebRequest request, C validateCode) {
         //String sessionKey = SESSION_KEY_PREFIX + getProcessorType(request).toUpperCase();
         //sessionStrategy.setAttribute(request,sessionKey, validateCode);
-        sessionStrategy.setAttribute(request, getSessionKey(), validateCode);
+        // 往redis中无法序列化BufferedImage对象，把code存在redis即可
+        ValidateCode code = new ValidateCode(validateCode.getCode(),validateCode.getExpireTime());
+        sessionStrategy.setAttribute(request, getSessionKey(), code);
     }
 
     /**
