@@ -7,7 +7,7 @@ public interface SecurityConstants {
      */
     public static final String DEFAULT_VALIDATE_CODE_URL_PREFIX = "/code";
     /**
-     * 当请求需要身份认证时，默认跳转的url
+     * 当请求需要身份认证时，跳转到指定的登录页面Url
      * @see SecurityController
      */
     public static final String DEFAULT_UNAUTHENTICATION_URL = "/authentication/require";

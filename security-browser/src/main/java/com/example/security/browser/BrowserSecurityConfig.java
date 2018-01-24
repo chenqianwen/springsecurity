@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.session.InvalidSessionStrategy;
@@ -62,6 +63,9 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     private InvalidSessionStrategy iInvalidSessionStrategy;
 
+    @Autowired
+    private LogoutSuccessHandler iLogoutSuccessHandler;
+
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
@@ -100,7 +104,7 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
               // 在UsernamePasswordAuthenticationFilter过滤器之前增加smsCodeFilter，validateCodeFilter过滤器
             .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
             .formLogin()
-                .loginPage("/authentication/require")// 指定跳转到的url
+                .loginPage("/authentication/require")// 指定的登录页面Url
                 .loginProcessingUrl("/authentication/form")//登录请求拦截的url,也就是form表单提交时指定的action
                 .successHandler(iAuthenticationSuccessHandler)//表单登陆之后调用自定义的 认证成功处理器
                 .failureHandler(iAuthenticationFailureHandler)//表单登陆之后调用自定义的 认证失败处理器
@@ -116,6 +120,12 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
                 .maxSessionsPreventsLogin(securityProperties.getBrowser().getSession().isMaxSessionsPreventsLogin())
                 .expiredSessionStrategy(iExpiredSessionStrategy)//session失效策略
                 .and()
+                .and()
+            .logout()
+                .logoutUrl("/signOut")//调用该url退出系统
+                .logoutSuccessUrl("/logout.html ")//退出成功跳转url
+                .logoutSuccessHandler(iLogoutSuccessHandler)//退出成功处理器 配置之后logoutSuccessUrl失效
+                .deleteCookies("JSESSIONID")//退出指定删除
                 .and()
             .authorizeRequests()
                 .antMatchers(
