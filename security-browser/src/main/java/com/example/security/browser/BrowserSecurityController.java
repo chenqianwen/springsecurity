@@ -1,6 +1,6 @@
 package com.example.security.browser;
 
-import com.example.security.browser.support.SimpleResponse;
+import com.example.security.core.support.SimpleResponse;
 import com.example.security.browser.support.SocialUserInfo;
 import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;

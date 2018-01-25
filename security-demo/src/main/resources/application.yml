@@ -17,9 +17,14 @@ server:
     timeout: 6000
 
 ## close default configuration
-#security:
+security:
+  oauth2:
+    client:
+      clientId: love
+      clientSecret: love
 #  basic:
 #    enabled: false
+
 
 example:
   security:

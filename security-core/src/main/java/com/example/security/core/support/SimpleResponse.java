@@ -1,4 +1,4 @@
-package com.example.security.browser.support;
+package com.example.security.core.support;
 
 public class SimpleResponse {
 

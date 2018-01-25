@@ -2,6 +2,7 @@ package com.example.security.browser;
 
 import com.example.security.browser.session.IExpiredSessionStrategy;
 import com.example.security.browser.session.IInvalidSessionStrategy;
+import com.example.security.core.authentication.AbstractChannelSecurityConfig;
 import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
@@ -30,7 +31,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @Slf4j
-public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
+public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
 
     @Autowired
     private SecurityProperties securityProperties;
@@ -41,7 +42,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     private AuthenticationFailureHandler iAuthenticationFailureHandler;
 
-    @Qualifier("dataSource")
     @Autowired
     private DataSource dataSource;
 
@@ -66,10 +66,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
     @Autowired
     private LogoutSuccessHandler iLogoutSuccessHandler;
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository(){
@@ -88,6 +84,8 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        applyPasswordAuthenticationConfig(http);
+
         // 默认的记住我的时间
         int defaultRememberMeSeconds = securityProperties.getBrowser().getRememberMeSeconds();
         log.info("默认的记住我的时间："+defaultRememberMeSeconds);
@@ -103,12 +101,6 @@ public class BrowserSecurityConfig extends WebSecurityConfigurerAdapter{
             //.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
               // 在UsernamePasswordAuthenticationFilter过滤器之前增加smsCodeFilter，validateCodeFilter过滤器
             .addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
-            .formLogin()
-                .loginPage("/authentication/require")// 指定的登录页面Url
-                .loginProcessingUrl("/authentication/form")//登录请求拦截的url,也就是form表单提交时指定的action
-                .successHandler(iAuthenticationSuccessHandler)//表单登陆之后调用自定义的 认证成功处理器
-                .failureHandler(iAuthenticationFailureHandler)//表单登陆之后调用自定义的 认证失败处理器
-                .and()
             .rememberMe()
                 .tokenRepository(persistentTokenRepository())
                 .tokenValiditySeconds(defaultRememberMeSeconds)

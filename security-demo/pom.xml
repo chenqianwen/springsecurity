@@ -20,9 +20,14 @@
     </repositories>
 
     <dependencies>
+        <!--<dependency>-->
+            <!--<groupId>com.example.security</groupId>-->
+            <!--<artifactId>security-browser</artifactId>-->
+            <!--<version>${security.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>com.example.security</groupId>
-            <artifactId>security-browser</artifactId>
+            <artifactId>security-app</artifactId>
             <version>${security.version}</version>
         </dependency>
         <dependency>

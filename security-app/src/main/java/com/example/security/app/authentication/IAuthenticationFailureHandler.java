@@ -1,8 +1,8 @@
-package com.example.security.browser.authentication;
+package com.example.security.app.authentication;
 
-import com.example.security.core.support.SimpleResponse;
 import com.example.security.core.properties.LoginType;
 import com.example.security.core.properties.SecurityProperties;
+import com.example.security.core.support.SimpleResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
