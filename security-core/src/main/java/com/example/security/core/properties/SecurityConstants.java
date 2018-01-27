@@ -20,6 +20,10 @@ public interface SecurityConstants {
      */
     public static final String DEFAULT_LOGIN_PROCESSING_URL_MOBILE = "/authentication/mobile";
     /**
+     *默认的处理OPENID登录请求url
+     */
+    public static final String DEFAULT_LOGIN_PROCESSING_URL_OPENID = "/authentication/openid";
+    /**
      * 默认登录页面
      * @see SecurityController
      */
@@ -40,5 +44,13 @@ public interface SecurityConstants {
      * session失效默认的跳转地址
      */
     public static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
+    /**
+     * 默认的的社交登陆携带用户openId信息的参数的名称
+     */
+    public static final String DEFAULT_PARAMETER_NAME_OPENID = "openId";
+    /**
+     * 默认的的社交登陆携带服务提供商providerId信息的参数的名称
+     */
+    public static final String DEFAULT_PARAMETER_NAME_PROVIDERID = "providerId";
 
 }

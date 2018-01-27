@@ -56,6 +56,9 @@ public class IAuthenticationSuccessHandler extends SavedRequestAwareAuthenticati
             throw new UnapprovedClientAuthenticationException("请求头中无client信息");
         }
 
+        /**
+         * 抽取和解码请求头中的clientId和clientSecret
+         */
         String[] tokens = extractAndDecodeHeader(header, request);
         assert tokens.length == 2;
 
@@ -66,7 +69,7 @@ public class IAuthenticationSuccessHandler extends SavedRequestAwareAuthenticati
 
         if (clientDetails == null) {
             throw new UnapprovedClientAuthenticationException("clientId对应的信息不存在:"+clientId);
-        } else if (StringUtils.equals(clientDetails.getClientSecret(),clientSecret)) {
+        } else if (!StringUtils.equals(clientDetails.getClientSecret(),clientSecret)) {
             throw new UnapprovedClientAuthenticationException("clientSecret不匹配:"+clientSecret);
         }
         // (Map<String, String> requestParameters, String clientId, Collection<String> scope, String grantType)
@@ -78,23 +81,22 @@ public class IAuthenticationSuccessHandler extends SavedRequestAwareAuthenticati
 
         OAuth2AccessToken accessToken = authorizationServerTokenServices.createAccessToken(oAuth2Authentication);
 
-
-        // 如果自定义的登录方式是json
-        if (LoginType.JSON.equals(securityProperties.getBrowser().getLoginType())) {
-            response.setContentType("application/json;charset=UTF-8");
-            response.getWriter().write(objectMapper.writeValueAsString(accessToken));
-        }
-        // 如果自定义的登录方式不是json，则跳转
-        else {
-            super.onAuthenticationSuccess(request,response,authentication);
-        }
+        response.setContentType("application/json;charset=UTF-8");
+        response.getWriter().write(objectMapper.writeValueAsString(accessToken));
     }
 
+    /**
+     * 抽取和解码请求头中的clientId和clientSecret
+     * 请求头参数格式：
+     *  Authorization : Basic bG92ZTpsb3Zl
+     */
     private String[] extractAndDecodeHeader(String header, HttpServletRequest request)
         throws IOException {
-
+        // 去掉Basic 前面的6位字符
         byte[] base64Token = header.substring(6).getBytes("UTF-8");
         byte[] decoded;
+
+        // 用Base64解密字符串bG92ZTpsb3Zl
         try {
             decoded = Base64.decode(base64Token);
         }
@@ -105,9 +107,10 @@ public class IAuthenticationSuccessHandler extends SavedRequestAwareAuthenticati
 
         String token = new String(decoded, "UTF-8");
 
-
+        /**
+         * 抽取clientId和clientSecret
+         */
         int delim = token.indexOf(":");
-
         if (delim == -1) {
             throw new BadCredentialsException("Invalid basic authentication token");
         }

@@ -184,8 +184,19 @@ AuthenticationProvider : 接口 supports方法 判断支Token的类型
 UsernamePasswordAuthenticationToken 中
     private final Object principal; // 用户名
     private Object credentials;// 密码
+ 
+ 
+ 
     
-    
+ OAuth2：
+ 请求授权码：
+ http://localhost:8090/oauth/authorize?response_type=code&client_id=love&redirect_uri=http://example.com&scope=all
+ 
+映射到TokenEndpoint中    
+
+
+验证码逻辑:
+browser:验证码存在session中
     
 appid：应用的唯一标识。在OAuth2.0认证过程中，appid的值即为oauth_consumer_key的值。
 

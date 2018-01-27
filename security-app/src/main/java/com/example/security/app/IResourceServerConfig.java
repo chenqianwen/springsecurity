@@ -1,9 +1,11 @@
 package com.example.security.app;
 
+import com.example.security.app.social.openid.OpenIdAuthenticationSecurityConfig;
 import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
 import com.example.security.core.validate.code.ValidateCodeFilter;
+import com.example.security.core.validate.code.ValidateCodeSecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -39,32 +41,29 @@ public class IResourceServerConfig extends ResourceServerConfigurerAdapter{
     private AuthenticationFailureHandler iAuthenticationFailureHandler;
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private UserDetailsService userDetailsService;
-
-    @Autowired
     private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
 
     @Autowired
     private SpringSocialConfigurer iSpringSocialConfigurer;
 
     @Autowired
-    private ValidateCodeFilter validateCodeFilter;
+    private ValidateCodeSecurityConfig validateCodeSecurityConfig;
 
+    @Autowired
+    private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http
-            .apply(iSpringSocialConfigurer)//新增自定义配置
-            .and()
+            .apply(validateCodeSecurityConfig)
+                .and()
             .apply(smsCodeAuthenticationSecurityConfig)
-            .and()
-            //.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
-            // 在UsernamePasswordAuthenticationFilter过滤器之前增加smsCodeFilter，validateCodeFilter过滤器
-            //.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                  .and()
+            .apply(iSpringSocialConfigurer)
+                  .and()
+            .apply(openIdAuthenticationSecurityConfig)
+                  .and()
             .formLogin()
             .loginPage("/authentication/require")// 指定的登录页面Url
             .loginProcessingUrl("/authentication/form")//登录请求拦截的url,也就是form表单提交时指定的action
