@@ -27,6 +27,7 @@ import java.security.Provider;
 public class SocialConfig extends SocialConfigurerAdapter {
 
 
+    @Qualifier("dataSource")
     @Autowired
     private DataSource dataSource;
 
@@ -36,6 +37,7 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required = false)
     private ConnectionSignUp connectionSignUp;
 
+    private UsersConnectionRepository usersConnectionRepository;
 
     /**
      * 默认的查询内存数据InMemoryUsersConnectionRepository
@@ -56,9 +58,14 @@ public class SocialConfig extends SocialConfigurerAdapter {
         if (connectionSignUp != null) {
             repository.setConnectionSignUp(connectionSignUp);
         }
+        usersConnectionRepository = repository;
         return repository;
     }
 
+    @Bean
+    public UsersConnectionRepository usersConnectionRepository () {
+        return usersConnectionRepository;
+    }
 
     @Bean
     public SpringSocialConfigurer iSpringSocialConfigurer() {

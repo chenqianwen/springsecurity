@@ -2,6 +2,7 @@ package com.example.security.app;
 
 import com.example.security.app.social.openid.OpenIdAuthenticationSecurityConfig;
 import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.example.security.core.authorize.AuthorizeConfigManager;
 import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
 import com.example.security.core.validate.code.ValidateCodeFilter;
@@ -52,6 +53,9 @@ public class IResourceServerConfig extends ResourceServerConfigurerAdapter{
     @Autowired
     private OpenIdAuthenticationSecurityConfig openIdAuthenticationSecurityConfig;
 
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
+
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -71,24 +75,9 @@ public class IResourceServerConfig extends ResourceServerConfigurerAdapter{
             .failureHandler(iAuthenticationFailureHandler)//表单登陆之后调用自定义的 认证失败处理器
             .and()
             .authorizeRequests()
-            .antMatchers(
-                    SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-                    SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-                    securityProperties.getBrowser().getLoginPage(),
-                    SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
-                    securityProperties.getBrowser().getSignUpUrl(),
-                    "/user/regist",
-                    "/connect",
-                    "/connect/*",
-                    "/default-binding.html",
-                    securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".json",
-                    securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".html"
-            )
-            .permitAll()//匹配该url则不需要验证
-            .anyRequest()
-            .authenticated()
             .and()
             .csrf().disable()//禁用跨站请求伪造功能
         ;
+        authorizeConfigManager.config(http.authorizeRequests());
     }
 }

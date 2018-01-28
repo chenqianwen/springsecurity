@@ -20,14 +20,19 @@
     </repositories>
 
     <dependencies>
+        <dependency>
+            <groupId>com.example.security</groupId>
+            <artifactId>security-browser</artifactId>
+            <version>${security.version}</version>
+        </dependency>
         <!--<dependency>-->
             <!--<groupId>com.example.security</groupId>-->
-            <!--<artifactId>security-browser</artifactId>-->
+            <!--<artifactId>security-app</artifactId>-->
             <!--<version>${security.version}</version>-->
         <!--</dependency>-->
         <dependency>
             <groupId>com.example.security</groupId>
-            <artifactId>security-app</artifactId>
+            <artifactId>security-authorize</artifactId>
             <version>${security.version}</version>
         </dependency>
         <dependency>
@@ -41,6 +46,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.0</version>
         </dependency>
     </dependencies>
 

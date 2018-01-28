@@ -1,22 +1,105 @@
 # spring security 安全框架 #
 
-[![vue](https://img.shields.io/badge/vue-2.4.2-brightgreen.svg)](https://github.com/vuejs/vue)
-[![element-ui](https://img.shields.io/badge/element--ui-1.4.1-brightgreen.svg)](https://github.com/ElemeFE/element)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/PanJiaChen/vue-element-admin/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/PanJiaChen/vue-element-admin.svg)]()
+**基本原理**
+- 请求 --> 
+        SecurityContextPersistenceFilter(一定生效) --> 
+- ----------------------------------------------------------------------------------------------------------
+         BasicAuthenticationFilter(可配置生效) -->
+         UsernamePasswordAuthenticationFilter(可配置生效) -->
+         RememberMeAuthenticationFilter(可配置生效) -->
+         SmsCodeAuthenticationFilter(可配置生效) -->
+         SocialAuthenticationFilter(可配置生效) -->
+         OAuth2AuthenticationProcessingFilter(可配置生效) -->
+         OAuth2ClientAuthenticationProcessingFilter(可配置生效) -->
+- ----------------------------------------------------------------------------------------------------------
+         AnonymousAuthenticationFilter() -->
+- ----------------------------------------------------------------------------------------------------------         
+         ExceptionTranslationFilter(一定生效:捕获FilterSecurityInterceptor抛出的异常) -->
+- ----------------------------------------------------------------------------------------------------------         
+         FilterSecurityInterceptor(一定生效:匹配WebSecurityConfigurerAdapter验证) -->
+- ----------------------------------------------------------------------------------------------------------         
+         REST API
 
+**控制授权**
+- 请求 --> 
+        FilterSecurityInterceptor(过滤器) -->  
+        
+        1.FilterSecurityInterceptor封装的用户请求信息 即*URL*
+        
+        2 .SecurityConfig(系统配置信息)
+                 根据用户配置的 httpSecurity.authorizeRequests()
+                                              .antMatchers(
+                                                      securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".json",
+                                                      securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".html"
+                                                      )
+                                              .permitAll()
+                                              .anyRequest()
+                                              .authenticated()
+                 封装成ConfigAttribute
+        ConfigAttribute即*url对应的权限*
+        3. SecurityContextHolder 
+                获取封装在上下文中Authentication的用户的权限信息
+         Authentication即*用户的权限信息*
+         
+        上述1,2,3 ---------->
+            
+        AccessDecisionManager(接口:授权决定管理者) -->
+        
+        AbstractAccessDecisionManager(抽象实现)                     <--------------   AccessDecisionVoter
+        AffirmativeBased(具体实现:有一个通过则通过(spring默认))                        WebExpressionVoter 
+        ConsensusBased(具体实现:比较通过和不通过数量)
+        UnanimousBased(具体实现:有一个不通过则不通过)
 
-[线上地址](http://panjiachen.github.io/vue-element-admin)
+- AnonymousAuthenticationFilter
+匿名过滤器：处于配置的过滤器最后。
+ doFilter方法，判断上下文中如果没有Authentication，则创建AnonymousAuthenticationToken封装用户信息principal是字符串anonymousUser而不是UserDetails.
+ 并将AnonymousAuthenticationToken放到SecurityContext中。
+ 如果前面配置的过滤器(如UsernamePasswordAuthenticationFilter)，过滤请求的URL，则SecurityContext中会存一个对应的Authentication。
+ 如果前面配置的过滤器，没有过滤到请求的URL，那么在AnonymousAuthenticationFilter中就会存AnonymousAuthenticationToken。
 
-[English Document](https://github.com/PanJiaChen/vue-element-admin/blob/master/README-en.md)
+**请求拒绝流程**
 
-[wiki](https://github.com/PanJiaChen/vue-element-admin/wiki)
+进入FilterSecurityInterceptor的方法，调用invoke方法，参数是(1.)请求的URL
+beforeInvocation方法表示在调用rest服务之前的授权判断的逻辑。
 
-**本项目的定位是后台集成方案，不适合当基础模板来开发，模板建议使用 [vueAdmin-template](https://github.com/PanJiaChen/vueAdmin-template) ， 桌面端 [electron-vue-admin](https://github.com/PanJiaChen/electron-vue-admin)**
+beforeInvocation方法中调用this.obtainSecurityMetadataSource().getAttributes(object)
+即调用DefaultFilterInvocationSecurityMetadataSource类中的getAttributes方法
+getAttributes方法中的通过requestMap得到了用户配置的antMatchers信息用来匹配，获得(2.)该请求需要具有的权限
 
+beforeInvocation方法中调用authenticateIfRequired()获取认证的(3.)Authentication信息
 
+根据1，2，3
+beforeInvocation方法中调用this.accessDecisionManager.decide(authenticated, object, attributes);决定是否验证通过。
+spring默认调用AffirmativeBased实现的decide方法:  
+getDecisionVoters()获取投票器spring3.X以后，web请求只有一个WebExpressionVoter投票器，访问不通过抛出AccessDeniedException
+进入FilterSecurityInterceptor的方法中捕获AccessDeniedException，抛给前一个过滤器ExceptionTranslationFilter
 
-**注意：该项目目前使用element-ui@1.4.1版本，所以最低兼容 Vue 2.3.0**
+ExceptionTranslationFilter判断是否是AuthenticationException,如果不是则调用处理异常的方法handleSpringSecurityException
+handleSpringSecurityException方法中判断是否是AccessDeniedException，如果是再判断Authentication是否匿名。
+如果是匿名的认证，sendStartAuthentication()去做身份认证，调转到用户配置的loginPage的路径上
+如果不是匿名的认证，则返回403的错误。
+
+**请求ok流程**
+
+由于用户配置的 .antMatchers(HttpMethod.GET,"/user/*").hasRole("ADMIN")中hasRole方法会将ADMIN组装成hasRole(ROLE_ADMIN)
+所以UserDetailsService中需要给ROLE_ADMIN的权限
+beforeInvocation方法中调用this.accessDecisionManager.decide(authenticated, object, attributes)方法时
+匹配Authentication中的权限和用户配置ConfigAttribute需要的权限一致时beforeInvocation方法结束
+FilterSecurityInterceptor类中继续调用fi.getChain().doFilter(fi.getRequest(), fi.getResponse());方法调用rest服务。
+        
+
+## 权限表达式
+permitAll   永远返回true
+denyAll 永远返回false
+anonymous   当前用户是anonymous返回true
+rememberMe  当前用户是rememberMe用户返回true
+authenticated 当前用户不是anonymous返回true
+fullAuthenticated 当前用户既不是anonymous也不是rememberMe返回true
+hasRole(role)  用户拥有制定的角色时返回true ===>UserDetails中需要ROLE_前缀
+hasAnyRole([role1,role2]) 用户拥有任一角色时返回true
+hasAuthority(authority) 用户拥有指定的权限时返回true ===>UserDetails中不需要前缀
+hasAnyAuthority([authority1,authority2]) 用户拥有任一权限时返回true  
+hasIoAddress('127.0.0.1'') 请求发送的ip匹配时返回true                                             
 
 ## 前言
 

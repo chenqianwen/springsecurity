@@ -17,11 +17,11 @@ server:
     timeout: 6000
 
 ## close default configuration
-security:
-  oauth2:
-    client:
-      clientId: love
-      clientSecret: love
+#security:
+#  oauth2:
+#    client:
+#      clientId: love
+#      clientSecret: love
 #  basic:
 #    enabled: false
 
@@ -55,3 +55,12 @@ example:
       weixin:
         app-id: wxfd6965ab1fc6adb2
         app-secret: 66bb4566de776ac699ec1dbed0cc3dd1
+    oauth2:
+      clients[0]:
+        clientId: love
+        clientSecret: love
+        accessTokenValiditySeconds: 3600
+      clients[1]:
+        clientId: love1
+        clientSecret: love1
+        accessTokenValiditySeconds: 3600
