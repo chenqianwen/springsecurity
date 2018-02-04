@@ -59,7 +59,7 @@ public class IAuthenticationSuccessHandler extends SavedRequestAwareAuthenticati
         /**
          * 抽取和解码请求头中的clientId和clientSecret
          */
-        String[] tokens = extractAndDecodeHeader(header, request);
+         String[] tokens = extractAndDecodeHeader(header, request);
         assert tokens.length == 2;
 
         String clientId = tokens[0];

@@ -20,16 +20,16 @@
     </repositories>
 
     <dependencies>
-        <!--<dependency>-->
-            <!--<groupId>com.example.security</groupId>-->
-            <!--<artifactId>security-browser</artifactId>-->
-            <!--<version>${security.version}</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>com.example.security</groupId>
-            <artifactId>security-app</artifactId>
+            <artifactId>security-browser</artifactId>
             <version>${security.version}</version>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.example.security</groupId>-->
+            <!--<artifactId>security-app</artifactId>-->
+            <!--<version>${security.version}</version>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

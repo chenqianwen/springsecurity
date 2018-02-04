@@ -118,7 +118,7 @@ public class WeixinOAuth2Template extends OAuth2Template {
      */
     protected RestTemplate createRestTemplate() {
         RestTemplate restTemplate = super.createRestTemplate();
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
+        //restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("UTF-8")));
         return restTemplate;
     }
 
