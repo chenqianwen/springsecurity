@@ -4,6 +4,7 @@ import com.example.security.browser.session.IExpiredSessionStrategy;
 import com.example.security.browser.session.IInvalidSessionStrategy;
 import com.example.security.core.authentication.AbstractChannelSecurityConfig;
 import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.example.security.core.authorize.AuthorizeConfigManager;
 import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
 import com.example.security.core.validate.code.ValidateCodeFilter;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -66,6 +69,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
     @Autowired
     private LogoutSuccessHandler iLogoutSuccessHandler;
 
+    @Autowired
+    private AuthorizeConfigManager authorizeConfigManager;
+
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository(){
@@ -119,25 +125,8 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
                 .logoutSuccessHandler(iLogoutSuccessHandler)//退出成功处理器 配置之后logoutSuccessUrl失效
                 .deleteCookies("JSESSIONID")//退出指定删除
                 .and()
-            .authorizeRequests()
-                .antMatchers(
-                        SecurityConstants.DEFAULT_UNAUTHENTICATION_URL,
-                        SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE,
-                        securityProperties.getBrowser().getLoginPage(),
-                        SecurityConstants.DEFAULT_VALIDATE_CODE_URL_PREFIX+"/*",
-                        securityProperties.getBrowser().getSignUpUrl(),
-                        "/user/regist",
-                        "/connect",
-                        "/connect/*",
-                        "/default-binding.html",
-                        securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".json",
-                        securityProperties.getBrowser().getSession().getSessionInvalidUrl()+".html"
-                        )
-                .permitAll()//匹配该url则不需要验证
-                .anyRequest()
-                .authenticated()
-                .and()
             .csrf().disable()//禁用跨站请求伪造功能
             ;
+        authorizeConfigManager.config(http.authorizeRequests());
     }
 }
