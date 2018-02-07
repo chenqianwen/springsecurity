@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * created by ygl on 2018/1/27
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  */
 public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
 
@@ -43,8 +45,9 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
      * @return
      * @throws AuthenticationException
      */
+    @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        if (this.postOnly && !request.getMethod().equals("POST")) {
+        if (this.postOnly && !"POST".equals(request.getMethod())) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         } else {
             String openId = this.obtainOpenId(request);

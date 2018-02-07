@@ -5,7 +5,11 @@ import org.springframework.stereotype.Component;
 import javax.servlet.*;
 import java.io.IOException;
 import java.util.Date;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 //@Component
 public class TimeFilter implements Filter{
     @Override
@@ -16,7 +20,7 @@ public class TimeFilter implements Filter{
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         //System.out.println("-----------------start");
-        long start = new Date().getTime();
+        long start = System.currentTimeMillis();
         filterChain.doFilter(servletRequest,servletResponse);
         //System.out.println("time:"+ (new Date().getTime()-start));
         //System.out.println("-----------------finish");

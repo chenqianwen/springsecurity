@@ -4,7 +4,9 @@ package com.example.security.core.validate.code;
 import com.example.security.core.properties.SecurityConstants;
 
 /**
- *
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  */
 public enum ValidateCodeType {
 	

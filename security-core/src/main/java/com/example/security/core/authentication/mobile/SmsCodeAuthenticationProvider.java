@@ -8,8 +8,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 提供验证逻辑
  */
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider{

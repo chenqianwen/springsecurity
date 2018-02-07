@@ -26,16 +26,23 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 处理请求
  */
 @RestController
 @Slf4j
 public class BrowserSecurityController {
 
-    // HttpSessionRequestCache ：当前请求缓存到session中
+    /**
+     * HttpSessionRequestCache ：当前请求缓存到session中
+     */
     private RequestCache requestCache = new HttpSessionRequestCache();
 
-    //  跳转类
+    /**
+     * 跳转类
+     */
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
     @Autowired

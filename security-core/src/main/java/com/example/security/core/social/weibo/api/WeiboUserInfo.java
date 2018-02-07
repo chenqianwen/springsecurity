@@ -3,7 +3,11 @@ package com.example.security.core.social.weibo.api;
 import lombok.Data;
 
 import javax.websocket.OnError;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 @Data
 public class WeiboUserInfo {
     /**

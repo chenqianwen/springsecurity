@@ -10,7 +10,11 @@ import org.springframework.social.oauth2.TokenStrategy;
 
 import java.nio.charset.Charset;
 import java.util.List;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 public class WeixinImpl extends AbstractOAuth2ApiBinding implements Weixin {
 
     /**
@@ -32,6 +36,7 @@ public class WeixinImpl extends AbstractOAuth2ApiBinding implements Weixin {
     /**
      * 默认注册的StringHttpMessageConverter字符集为ISO-8859-1，而微信返回的是UTF-8的，所以覆盖了原来的方法。
      */
+    @Override
     protected List<HttpMessageConverter<?>> getMessageConverters() {
         List<HttpMessageConverter<?>> messageConverters = super.getMessageConverters();
         messageConverters.remove(0);

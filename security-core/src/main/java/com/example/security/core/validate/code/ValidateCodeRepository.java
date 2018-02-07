@@ -3,7 +3,9 @@ package com.example.security.core.validate.code;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
- * created by ygl on 2018/1/27
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  */
 public interface ValidateCodeRepository {
 

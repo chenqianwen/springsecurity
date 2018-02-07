@@ -7,7 +7,11 @@ import com.example.security.core.social.weibo.api.Weibo;
 import com.example.security.core.social.weibo.api.WeiboImpl;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 import org.springframework.social.oauth2.OAuth2Template;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 public class WeiboServiceProvider extends AbstractOAuth2ServiceProvider<Weibo> {
 
     /**

@@ -11,7 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter{
 

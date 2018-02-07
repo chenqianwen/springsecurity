@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 需要声明 多实例的类
  * 若果用@Component则变成单例，AbstractOAuth2ApiBinding中的全局变量accessToken会有线程安全问题
  */

@@ -22,6 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 认证服务器
  */
 @Configuration

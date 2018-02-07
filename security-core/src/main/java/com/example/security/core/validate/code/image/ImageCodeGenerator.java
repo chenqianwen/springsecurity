@@ -12,8 +12,10 @@ import org.springframework.web.context.request.ServletWebRequest;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
-
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 默认的图片验证码的生成器
  */
 public class ImageCodeGenerator implements ValidateCodeGenerator {

@@ -12,8 +12,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.web.servlet.View;
-
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 微信登录配置
  *
  */

@@ -1,5 +1,10 @@
 package com.example.web.async;
 
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 public class MockQueue {
 
     private String placeOrder;

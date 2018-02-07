@@ -15,6 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 抽象session失效策略
  */
 @Slf4j

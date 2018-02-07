@@ -8,9 +8,10 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import java.util.Map;
-
-
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  *
  * 验证码的抽象父类：
  * 验证码处理器 -- 子类实例化时的bean名称格式如下即可：
@@ -41,6 +42,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      * @param request
      * @throws Exception
      */
+    @Override
     public void create(ServletWebRequest request) throws Exception{
         // 生成代码
         C validateCode = generate(request);

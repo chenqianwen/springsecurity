@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * QQ/WX 连接信息的视图
  */
 @Component("connect/status")
@@ -34,7 +37,7 @@ public class IConnectionStatusView extends AbstractView{
                                            HttpServletResponse response) throws Exception {
         Map<String, List<Connection<?>>> connections = (Map<String, List<Connection<?>>>) map.get("connectionMap");
 
-        Map<String, Boolean> result = new HashMap<>();
+        Map<String, Boolean> result = new HashMap<>(connections.size());
         for (String key : connections.keySet()) {
             result.put(key, CollectionUtils.isNotEmpty(connections.get(key)));
         }

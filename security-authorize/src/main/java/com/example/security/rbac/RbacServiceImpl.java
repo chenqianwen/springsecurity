@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 
 /**
- * created by ygl on 2018/1/28
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  */
 @Service("rbacService")
 public class RbacServiceImpl implements RbacService {

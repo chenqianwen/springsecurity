@@ -19,8 +19,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
-
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * OncePerRequestFilter 工具类：过滤器只会被调用一次
  * InitializingBean: 是为了在在其他参数组装完毕后，初始化urls的值
  */

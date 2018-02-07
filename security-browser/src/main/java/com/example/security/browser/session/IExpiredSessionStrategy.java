@@ -6,6 +6,11 @@ import org.springframework.security.web.session.SessionInformationExpiredStrateg
 import javax.servlet.ServletException;
 import java.io.IOException;
 
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 public class IExpiredSessionStrategy extends AbstractSessionStrategy implements SessionInformationExpiredStrategy {
 
 

@@ -1,12 +1,5 @@
 package com.example.security.core.social.weibo.connect;
-
-import com.example.security.core.social.qq.api.QQ;
-import com.example.security.core.social.qq.connect.QQAdapter;
-import com.example.security.core.social.qq.connect.QQServiceProvider;
 import com.example.security.core.social.weibo.api.Weibo;
-import com.example.security.core.social.weixin.api.Weixin;
-import com.example.security.core.social.weixin.connect.WeixinAccessGrant;
-import com.example.security.core.social.weixin.connect.WeixinAdapter;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.Connection;
 import org.springframework.social.connect.ConnectionData;
@@ -14,7 +7,11 @@ import org.springframework.social.connect.support.OAuth2Connection;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.social.oauth2.OAuth2ServiceProvider;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 public class WeiboConnectionFactory extends OAuth2ConnectionFactory<Weibo> {
 
     public WeiboConnectionFactory(String providerId, String appKey,String appSecret) {
@@ -32,17 +29,13 @@ public class WeiboConnectionFactory extends OAuth2ConnectionFactory<Weibo> {
         return null;
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.connect.support.OAuth2ConnectionFactory#createConnection(org.springframework.social.oauth2.AccessGrant)
-     */
+    @Override
     public Connection<Weibo> createConnection(AccessGrant accessGrant) {
         return new OAuth2Connection<Weibo>(getProviderId(), extractProviderUserId(accessGrant), accessGrant.getAccessToken(),
                 accessGrant.getRefreshToken(), accessGrant.getExpireTime(), getOAuth2ServiceProvider(), getApiAdapter(extractProviderUserId(accessGrant)));
     }
 
-    /* (non-Javadoc)
-     * @see org.springframework.social.connect.support.OAuth2ConnectionFactory#createConnection(org.springframework.social.connect.ConnectionData)
-     */
+    @Override
     public Connection<Weibo> createConnection(ConnectionData data) {
         return new OAuth2Connection<Weibo>(data, getOAuth2ServiceProvider(), getApiAdapter(data.getProviderUserId()));
     }

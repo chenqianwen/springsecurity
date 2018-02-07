@@ -1,7 +1,11 @@
 package com.example.security.browser.support;
 
 import lombok.Data;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 @Data
 public class SocialUserInfo {
 

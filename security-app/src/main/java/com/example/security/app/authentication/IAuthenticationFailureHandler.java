@@ -14,8 +14,10 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 认证失败调用
  * SimpleUrlAuthenticationFailureHandler: spring默认的失败处理器
  */

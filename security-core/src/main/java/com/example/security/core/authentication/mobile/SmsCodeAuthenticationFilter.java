@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 仿照 UsernamePasswordAuthenticationFilter
  */
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
@@ -42,8 +45,9 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
      * @return
      * @throws AuthenticationException
      */
+    @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        if (this.postOnly && !request.getMethod().equals("POST")) {
+        if (this.postOnly && !"POST".equals(request.getMethod())) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         } else {
             String mobile = this.obtainMobile(request);

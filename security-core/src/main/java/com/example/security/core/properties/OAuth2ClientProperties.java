@@ -3,7 +3,9 @@ package com.example.security.core.properties;
 import lombok.Data;
 
 /**
- * created by ygl on 2018/1/27
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  */
 @Data
 public class OAuth2ClientProperties {

@@ -5,8 +5,10 @@ import com.example.security.core.social.weixin.api.WeixinUserInfo;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
-
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 微信 api适配器，将微信 api的数据模型转为spring social的标准模型。
  *  由于openId不同，会声明多实例对象
  */

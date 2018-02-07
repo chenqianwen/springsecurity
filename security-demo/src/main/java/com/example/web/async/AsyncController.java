@@ -10,7 +10,11 @@ import org.springframework.web.context.request.async.DeferredResult;
 
 import java.util.concurrent.Callable;
 
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 @RestController
 @Slf4j
 public class AsyncController {

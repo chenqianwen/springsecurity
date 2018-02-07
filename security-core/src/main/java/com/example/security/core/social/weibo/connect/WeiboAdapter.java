@@ -9,6 +9,9 @@ import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
 
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 微博 api适配器，将微博 api的数据模型转为spring social的标准模型。
  *  由于uid不同，会声明多实例对象
  */

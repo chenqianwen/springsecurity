@@ -5,7 +5,11 @@ import com.example.security.core.social.qq.api.QQUserInfo;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 public class QQAdapter implements ApiAdapter<QQ>{
 
     /**

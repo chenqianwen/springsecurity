@@ -1,8 +1,10 @@
 package com.example.security.core.properties;
 
 import lombok.Data;
-
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 配置图形验证码的属性
  */
 @Data

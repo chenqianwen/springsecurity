@@ -9,8 +9,10 @@ import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.imageio.ImageIO;
-
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 短信验证码处理器
  */
 @Component("smsValidateCodeProcessor")

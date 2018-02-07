@@ -21,7 +21,11 @@ import org.springframework.social.security.SpringSocialConfigurer;
 import javax.crypto.EncryptedPrivateKeyInfo;
 import javax.sql.DataSource;
 import java.security.Provider;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 @Configuration
 @EnableSocial
 public class SocialConfig extends SocialConfigurerAdapter {

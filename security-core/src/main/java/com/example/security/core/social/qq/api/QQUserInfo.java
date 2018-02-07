@@ -3,6 +3,9 @@ package com.example.security.core.social.qq.api;
 import lombok.Data;
 
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 获取qq的用户信息，对应的实体
  */
 @Data

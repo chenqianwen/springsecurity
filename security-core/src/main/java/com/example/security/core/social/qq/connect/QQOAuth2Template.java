@@ -11,7 +11,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
 import java.util.List;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 @Slf4j
 public class QQOAuth2Template extends OAuth2Template {
 

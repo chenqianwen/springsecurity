@@ -4,7 +4,11 @@ import com.example.security.core.social.qq.api.QQ;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 import org.springframework.social.oauth2.OAuth2ServiceProvider;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 public class QQConnectionFactory extends OAuth2ConnectionFactory<QQ> {
     /**
      *  ConnectionFactory需要的参数列表：

@@ -2,7 +2,11 @@ package com.example.security.core.social;
 
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 public class ISpringSocialConfigurer extends SpringSocialConfigurer {
 
     /**

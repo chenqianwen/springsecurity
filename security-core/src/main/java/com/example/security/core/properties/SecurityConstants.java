@@ -1,5 +1,9 @@
 package com.example.security.core.properties;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 public interface SecurityConstants {
 
     /**

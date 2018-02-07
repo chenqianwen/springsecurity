@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 /**
- * created by ygl on 2018/1/28
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  */
 @Component
 public class IAuthorizeConfigManager implements AuthorizeConfigManager {

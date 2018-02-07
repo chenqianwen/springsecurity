@@ -18,7 +18,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * created by ygl on 2018/1/27
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  */
 public class OpenIdAuthenticationProvider implements AuthenticationProvider {
 

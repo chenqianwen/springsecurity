@@ -8,7 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 @Configuration
 public class ValidateCodeBeanConfig {
 
@@ -34,7 +38,7 @@ public class ValidateCodeBeanConfig {
      */
     @Bean
     @ConditionalOnMissingBean(SmsCodeSender.class)
-    public SmsCodeSender SmsCodeSender () {
+    public SmsCodeSender smsCodeSender () {
         return new DefaultSmsCodeSender();
     }
 }

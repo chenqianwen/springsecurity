@@ -32,6 +32,11 @@ import org.springframework.social.security.SpringSocialConfigurer;
 
 import javax.sql.DataSource;
 
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 @Configuration
 @Slf4j
 public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{

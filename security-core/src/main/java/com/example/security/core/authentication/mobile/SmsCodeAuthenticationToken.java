@@ -4,8 +4,10 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
-
 /**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  * 封装登录信息
  * 认证之前存的是手机信息，认证之后存的是用户信息
  */
@@ -50,6 +52,7 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
         return this.principal;
     }
 
+    @Override
     public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
         if (isAuthenticated) {
             throw new IllegalArgumentException("Cannot set this token to trusted - use constructor which takes a GrantedAuthority list instead");
@@ -58,6 +61,7 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
         }
     }
 
+    @Override
     public void eraseCredentials() {
         super.eraseCredentials();
     }

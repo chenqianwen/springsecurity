@@ -7,7 +7,9 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.stereotype.Component;
 
 /**
- * created by ygl on 2018/1/28
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  */
 @Component
 @Order(Integer.MAX_VALUE)

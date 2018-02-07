@@ -10,14 +10,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
- * created by ygl on 2018/1/27
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
  */
 @Component
 public class SessionValidateCodeRepository implements ValidateCodeRepository {
     /**
      * 验证码放入session时的前缀
      */
-    String SESSION_KEY_PREFIX = "SESSION_KEY_FOR_CODE_";
+    public static String SESSION_KEY_PREFIX = "SESSION_KEY_FOR_CODE_";
 
     /**
      * 操作session的工具类

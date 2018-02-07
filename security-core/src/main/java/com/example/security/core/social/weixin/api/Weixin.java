@@ -1,9 +1,15 @@
 package com.example.security.core.social.weixin.api;
-
+/**
+ * @author： yl
+ * @date： 2018/2/7-13:07
+ * @Description：
+ */
 public interface Weixin {
 
-    /* (non-Javadoc)
-     * @see com.ymt.pz365.framework.security.social.api.SocialUserProfileService#getUserProfile(java.lang.String)
+    /**
+     * 获取微信服务商用户细腻下
+     * @param openId
+     * @return
      */
     WeixinUserInfo getUserInfo(String openId);
 
