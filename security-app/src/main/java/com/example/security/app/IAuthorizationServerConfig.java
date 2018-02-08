@@ -92,7 +92,9 @@ public class IAuthorizationServerConfig extends AuthorizationServerConfigurerAda
                     // token有效时间
                     .accessTokenValiditySeconds(configClient.getAccessTokenValiditySeconds())
                     //支持的授权模式
-                    .authorizedGrantTypes("password")
+                    .authorizedGrantTypes("refresh_token", "authorization_code", "password")
+                    // refreshToken有效时间
+                    .refreshTokenValiditySeconds(2592000)
                     //请求范围
                     .scopes("al1l")
                 ;
