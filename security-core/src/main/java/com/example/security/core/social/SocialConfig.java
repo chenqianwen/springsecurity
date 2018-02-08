@@ -2,6 +2,7 @@ package com.example.security.core.social;
 
 
 import com.example.security.core.properties.SecurityProperties;
+import com.example.security.core.social.support.SocialAuthenticationFilterPostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.social.SocialAutoConfigurerAdapter;
@@ -41,6 +42,9 @@ public class SocialConfig extends SocialConfigurerAdapter {
     @Autowired(required = false)
     private ConnectionSignUp connectionSignUp;
 
+    @Autowired(required = false)
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
     private UsersConnectionRepository usersConnectionRepository;
 
     /**
@@ -75,9 +79,10 @@ public class SocialConfig extends SocialConfigurerAdapter {
     public SpringSocialConfigurer iSpringSocialConfigurer() {
         //return new SpringSocialConfigurer();
         String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
-        SpringSocialConfigurer iSpringSocialConfigurer = new ISpringSocialConfigurer(filterProcessesUrl);
+        ISpringSocialConfigurer iSpringSocialConfigurer = new ISpringSocialConfigurer(filterProcessesUrl);
         // 如果没有查询到对应的社交用户信息，设置跳转到注册页面的URL
         iSpringSocialConfigurer.signupUrl(securityProperties.getBrowser().getSignUpUrl());
+        iSpringSocialConfigurer.setSocialAuthenticationFilterPostProcessor(socialAuthenticationFilterPostProcessor);
         return iSpringSocialConfigurer;
     }
 

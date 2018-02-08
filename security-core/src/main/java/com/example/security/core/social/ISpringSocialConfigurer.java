@@ -1,5 +1,8 @@
 package com.example.security.core.social;
 
+import com.example.security.core.social.support.SocialAuthenticationFilterPostProcessor;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
 /**
@@ -14,6 +17,10 @@ public class ISpringSocialConfigurer extends SpringSocialConfigurer {
      */
     private String filterProcessesUrl;
 
+    @Setter
+    @Getter
+    private SocialAuthenticationFilterPostProcessor socialAuthenticationFilterPostProcessor;
+
     public ISpringSocialConfigurer(String filterProcessesUrl) {
         this.filterProcessesUrl = filterProcessesUrl;
     }
@@ -27,6 +34,9 @@ public class ISpringSocialConfigurer extends SpringSocialConfigurer {
     protected <T> T postProcess(T object) {
         SocialAuthenticationFilter filter =  (SocialAuthenticationFilter)super.postProcess(object);
         filter.setFilterProcessesUrl(filterProcessesUrl);
+        if (socialAuthenticationFilterPostProcessor != null) {
+            socialAuthenticationFilterPostProcessor.process(filter);
+        }
         return (T)filter;
     }
 }

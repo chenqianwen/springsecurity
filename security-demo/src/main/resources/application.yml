@@ -60,6 +60,7 @@ example:
         app-id: 3230627398
         app-secret: 0ad657f1fbb052ed843aa0d7f4f85c0e
     oauth2:
+      jwtSigningKey: hehe
       clients[0]:
         clientId: love
         clientSecret: love

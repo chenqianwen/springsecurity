@@ -285,6 +285,7 @@ appid：应用的唯一标识。在OAuth2.0认证过程中，appid的值即为oa
 
 appkey：appid对应的密钥，访问用户资源时用来验证应用的合法性。在OAuth2.0认证过程中，appkey的值即为oauth_consumer_secret的值。
 
+openid: 授权用户唯一标识
 
 ##  Spring Security OAuth 开发APP认证框架
 
@@ -297,14 +298,17 @@ TokenRequest tokenRequest = new TokenRequest(requestParameters, clientId, scopes
 并且在TokenRequest封装了请求信息ClientDetails信息。
 2.  TokenGranter接口: 令牌授权者：分装了4种模式的实现。简单模式，授权码模式，用户名密码模式，客户端模式。
     默认实现： CompositeTokenGranter
-根据TokenRequest中的grant_type挑选对应的一种实现类生成令牌。生成过程中产生OAuth2Request和Authentication.
+AbstractTokenGranter抽象实现中，根据TokenRequest中的grant_type挑选对应的一种实现类生成令牌。
+首先生成OAuth2Authentication
+protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest)
+生成过程中产生OAuth2Request和Authentication.
 OAuth2Request： ClientDetails和TokenRequest数据的整合
 Authentication: 授权用户的信息
 OAuth2Request和Authentication 整合成一个对象OAuth2Authentication对象
 OAuth2Authentication : 封装了哪个第三方应用和哪个用户授权等信息
 3.  AuthorizationServerTokenServices接口: 生成OAuth2AccessToken
     默认实现：DefaultTokenServices
-    默认的token生成是DefaultOAuth2AccessToken token = new DefaultOAuth2AccessToken(UUID.randomUUID().toString());
+    默认的token生成是UUID
 DefaultTokenServices中两接口TokenStore和TokenEnhancer
 TokenStore：令牌的存取        
 TokenEnhancer: 令牌增强器
@@ -326,9 +330,9 @@ TokenEnhancer: 令牌增强器
  通过AuthorizationServerTokenServices接口: 生成OAuth2AccessToken 然后返回token。
 createAccessToken方法需要OAuth2Authentication。
 OAuth2Authentication创建需要OAuth2Request和Authentication。Authentication在onAuthenticationSuccess方法中已存在
-OAuth2Request创建需要ClientDetails和TokenRequest
-
-    
+OAuth2Request创建需要ClientDetails和TokenRequest。OAuth2Request storedOAuth2Request = requestFactory.createOAuth2Request(client, tokenRequest);
+TokenRequest创建需要请求参数和ClientDetails。TokenRequest tokenRequest = getOAuth2RequestFactory().createTokenRequest(parameters, authenticatedClient);
+ClientDetails创建需要请求参数clientId.ClientDetails authenticatedClient = getClientDetailsService().loadClientByClientId(clientId);    
 ## License
 
 MIT

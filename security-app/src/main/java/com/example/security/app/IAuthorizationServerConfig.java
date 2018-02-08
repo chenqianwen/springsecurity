@@ -84,11 +84,17 @@ public class IAuthorizationServerConfig extends AuthorizationServerConfigurerAda
         OAuth2ClientProperties[] configClients = securityProperties.getOauth2().getClients();
         if (ArrayUtils.isNotEmpty(configClients)) {
             for (OAuth2ClientProperties configClient : configClients) {
-                builder.withClient(configClient.getClientId())
-                          .secret(configClient.getClientSecret())
-                          .accessTokenValiditySeconds(configClient.getAccessTokenValiditySeconds())
-                          .authorizedGrantTypes("password")//支持的授权模式
-                          .scopes("al1l")//请求范围
+                builder
+                    // clientId
+                    .withClient(configClient.getClientId())
+                    // clientSecret
+                    .secret(configClient.getClientSecret())
+                    // token有效时间
+                    .accessTokenValiditySeconds(configClient.getAccessTokenValiditySeconds())
+                    //支持的授权模式
+                    .authorizedGrantTypes("password")
+                    //请求范围
+                    .scopes("al1l")
                 ;
             }
         }

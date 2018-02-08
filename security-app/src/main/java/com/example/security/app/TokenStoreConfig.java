@@ -18,6 +18,8 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
  * @author： yl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 如果配置redis则用redis存token
+ * 如果没有配置redis，则用jwt自包含
  */
 @Configuration
 public class TokenStoreConfig {

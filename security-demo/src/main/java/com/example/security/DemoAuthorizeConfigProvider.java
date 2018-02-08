@@ -20,7 +20,7 @@ public class DemoAuthorizeConfigProvider implements AuthorizeConfigProvider {
         config.antMatchers("/index.html")
               .hasRole("ADMIN1");
         // rbacService指的是service名称
-        config.anyRequest().access("@rbacService.hasPermission(request,Authentication)");
+        //config.anyRequest().access("@rbacService.hasPermission(request,Authentication)");
         // 多权限用access方法
     }
 }
