@@ -11,4 +11,5 @@ public class UserQueryCondition {
     private String username;
     private String password;
     private int age;
+    private String size;
 }
