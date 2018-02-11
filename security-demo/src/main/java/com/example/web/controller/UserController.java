@@ -5,6 +5,9 @@ import com.example.dto.UserQueryCondition;
 import com.example.security.core.properties.SecurityProperties;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user")
 @Slf4j
+@Api(description = "用户模块")
 public class UserController {
 
     @Autowired
@@ -62,8 +66,9 @@ public class UserController {
      * @param userId
      * @return
      */
+    @ApiOperation(value = "通过ID查询")
     @GetMapping("/{id:\\d+}")
-    public User findOne(@PathVariable(name = "id",required = false) String userId){
+    public User findOne(@ApiParam("用户ID") @PathVariable(name = "id",required = false) String userId){
 //        throw new RuntimeException("not find");
         User user = new User();
         user.setUsername("于静");

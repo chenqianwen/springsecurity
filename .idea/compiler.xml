@@ -12,6 +12,10 @@
         <module name="security-browser" />
         <module name="security-core" />
         <module name="security-demo" />
+        <module name="sso-client1" />
+        <module name="sso-client2" />
+        <module name="sso-demo" />
+        <module name="sso-server" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -21,6 +25,10 @@
       <module name="security-browser" target="1.8" />
       <module name="security-core" target="1.8" />
       <module name="security-demo" target="1.8" />
+      <module name="sso-client1" target="1.8" />
+      <module name="sso-client2" target="1.8" />
+      <module name="sso-demo" target="1.8" />
+      <module name="sso-server" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

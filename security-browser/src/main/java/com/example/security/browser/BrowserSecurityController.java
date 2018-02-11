@@ -69,7 +69,7 @@ public class BrowserSecurityController {
             log.info("引发跳转的请求的url:"+redirectUrl);
             // 如果是访问html页面，则跳转到首页
             if (StringUtils.endsWithIgnoreCase(redirectUrl,".html")) {
-                String loginPage = securityProperties.getBrowser().getLoginPage();
+                String loginPage = securityProperties.getBrowser().getSignInPage();
                 redirectStrategy.sendRedirect(request,response,loginPage);
             }
         }

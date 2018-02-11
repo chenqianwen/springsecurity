@@ -1,8 +1,8 @@
 security:
   oauth2:
     client:
-      clientId: love1
-      clientSecret: love1
+      client-id: love1
+      client-secret: love1
       user-authorization-uri: http://localhost:9999/server/oauth/authorize
       access-token-uri:  http://localhost:9999/server/oauth/token
     resource:

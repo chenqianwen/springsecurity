@@ -27,6 +27,7 @@ public class IAuthorizeConfigManager implements AuthorizeConfigManager {
         for (AuthorizeConfigProvider authorizeConfigProvider : authorizeConfigProviders) {
             authorizeConfigProvider.config(config);
         }
-//        config.anyRequest().authenticated();
+        // 除了上述配置的其他的都要认证
+        config.anyRequest().authenticated();
     }
 }

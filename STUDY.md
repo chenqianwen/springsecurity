@@ -66,7 +66,7 @@ restful风格通过httpMethod区别增删改查
 		return (modelAndView == null ? new ModelAndView("error", model) : modelAndView);
 	}
 
-请求头中没有text/html,则返回json
+请求头accept中没有text/html,则返回json
 @RequestMapping
 @ResponseBody
 public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
@@ -75,6 +75,60 @@ public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
     HttpStatus status = getStatus(request);
     return new ResponseEntity<Map<String, Object>>(body, status);
 }
+
+9.@ControllerAdvice
+自定义异常处理
+
+10.自定义过滤器：只能拿到http请求和响应，不知道哪个控制器和处理方法
+public class TimeFilter implements Filter
+声明@Component即生效
+容器启动时调用init方法，销毁时调用destroy方法
+运行时，请求进入都会进入doFilter方法，过滤器链式处理完成，继续filterChain.doFilter(servletRequest,servletResponse)以下的方法。
+对应第三方过滤器，即没有@Component注解的过滤器类，可以通过下面方式注册到上下文中。
+@Bean
+public FilterRegistrationBean timeFilter(){
+    FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+    TimeFilter timeFilter = new TimeFilter();
+    registrationBean.setFilter(timeFilter);
+    //  对于哪些url有效
+    List<String> urls = new ArrayList<>();
+    urls.add("/*");
+    registrationBean.setUrlPatterns(urls);
+    return registrationBean;
+}
+
+11.自定义拦截器：可以获取控制器和处理方法
+public class TimeInterceptor implements HandlerInterceptor
+preHandle 在访问controller方法调用之前调用
+postHandle 在访问controller方法处理之后调用，抛出异常则不会调用
+afterCompletion 在访问controller方法处理之后一定调用
+((HandlerMethod)handler).getBean().getClass().getName()  ==> controller的名称
+((HandlerMethod)handler).getMethod().getName() ==> 方法的名称
+声明@Component不会生效，需要配置类继承WebMvcConfigurerAdapter，覆盖方法addInterceptors
+public class WebConfig extends WebMvcConfigurerAdapter
+将自定义的拦截器 添加到 拦截器注册器
+public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(timeInterceptor);
+}
+DispatchServlet中doDispatch方法中
+if (!mappedHandler.applyPreHandle(processedRequest, response)) {
+    return;
+}
+调用自定义拦截器的preHandle方法，如果返回false，就直接返回不继续处理。返回true时，调用真正的处理器
+// Actually invoke the handler.
+mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
+方法参数的拼装在上述方法中的。
+
+12.@Aspect： AOP可以获取参数
+
+13.RESTful api的拦截
+请求 --> filter --> interceptor --> ControllerAdvice --> Aspect --> Controller
+异常 --> Aspect --> ControllerAdvice --> interceptor --> filter
+
+14.swagger
+http://localhost:8090/swagger-ui.html
+
+
 
 ## License
 

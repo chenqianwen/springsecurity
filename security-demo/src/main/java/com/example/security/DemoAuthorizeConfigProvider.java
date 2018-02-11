@@ -18,7 +18,8 @@ public class DemoAuthorizeConfigProvider implements AuthorizeConfigProvider {
     @Override
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config.antMatchers("/index.html")
-              .hasRole("ADMIN1");
+              .hasRole("ADMIN")
+        ;
         // rbacService指的是service名称
         //config.anyRequest().access("@rbacService.hasPermission(request,Authentication)");
         // 多权限用access方法
