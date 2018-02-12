@@ -2,7 +2,7 @@ package com.example.security.browser;
 
 import com.example.security.core.support.SimpleResponse;
 import com.example.security.browser.support.SocialUserInfo;
-import com.example.security.core.properties.SecurityConstants;
+import com.example.security.core.constants.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -35,6 +35,8 @@ import java.io.IOException;
 @Slf4j
 public class BrowserSecurityController {
 
+    private String urlEndWithHtml = ".html";
+
     /**
      * HttpSessionRequestCache ：当前请求缓存到session中
      */
@@ -51,6 +53,8 @@ public class BrowserSecurityController {
     @Autowired
     private ProviderSignInUtils providerSignInUtils;
 
+
+
     /**
      * 需要身份验证时，跳转到这里
      * 如果是
@@ -61,19 +65,19 @@ public class BrowserSecurityController {
     @RequestMapping(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
     @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
     public SimpleResponse requireAuthentication(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // 从session中取请求
+        // 从session中取原始的请求
         SavedRequest savedRequest = requestCache.getRequest(request, response);
         if (savedRequest != null) {
             // 引发跳转的请求的url
             String redirectUrl = savedRequest.getRedirectUrl();
             log.info("引发跳转的请求的url:"+redirectUrl);
             // 如果是访问html页面，则跳转到首页
-            if (StringUtils.endsWithIgnoreCase(redirectUrl,".html")) {
+            if (StringUtils.endsWithIgnoreCase(redirectUrl,urlEndWithHtml)) {
                 String loginPage = securityProperties.getBrowser().getSignInPage();
                 redirectStrategy.sendRedirect(request,response,loginPage);
             }
         }
-        return new SimpleResponse("访问的服务需要身份验证");
+        return new SimpleResponse("访问的服务需要身份验证，请先登录！");
     }
 
     /**

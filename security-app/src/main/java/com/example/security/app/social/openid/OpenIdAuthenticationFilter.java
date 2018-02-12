@@ -1,7 +1,6 @@
 package com.example.security.app.social.openid;
 
-import com.example.security.core.authentication.mobile.SmsCodeAuthenticationToken;
-import com.example.security.core.properties.SecurityConstants;
+import com.example.security.core.constants.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -9,10 +8,8 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.Assert;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * @author： yl
@@ -35,7 +32,7 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
      */
     public OpenIdAuthenticationFilter() {
         //super(new AntPathRequestMatcher("/login", "POST"));
-        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_OPENID, "POST"));
+        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_OPENID, "POST"));
     }
 
     /**

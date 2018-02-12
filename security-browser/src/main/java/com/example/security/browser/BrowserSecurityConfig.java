@@ -1,25 +1,17 @@
 package com.example.security.browser;
 
-import com.example.security.browser.session.IExpiredSessionStrategy;
-import com.example.security.browser.session.IInvalidSessionStrategy;
 import com.example.security.core.authentication.AbstractChannelSecurityConfig;
+import com.example.security.core.authentication.FormAuthenticationConfig;
 import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.example.security.core.authorize.AuthorizeConfigManager;
-import com.example.security.core.properties.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
 import com.example.security.core.validate.code.ValidateCodeFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -77,6 +69,9 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
     @Autowired
     private AuthorizeConfigManager authorizeConfigManager;
 
+    @Autowired
+    private FormAuthenticationConfig formAuthenticationConfig;
+
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository(){
@@ -95,6 +90,8 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        //formAuthenticationConfig.configure(http);
+
         applyPasswordAuthenticationConfig(http);
 
         // 默认的记住我的时间
@@ -105,7 +102,7 @@ public class BrowserSecurityConfig extends AbstractChannelSecurityConfig{
          *  http.formLogin() : 浏览器中该验证是跳转到一个form表单,登录验证
          */
         http
-            .apply(iSpringSocialConfigurer)//新增自定义配置
+            .apply(iSpringSocialConfigurer)//新增自定义社交配置
                 .and()
             .apply(smsCodeAuthenticationSecurityConfig)
                 .and()

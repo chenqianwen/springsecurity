@@ -1,6 +1,6 @@
 package com.example.security.core.validate.code;
 
-import com.example.security.core.properties.SecurityConstants;
+import com.example.security.core.constants.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
 import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
@@ -71,14 +71,14 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         // 解析需要校验的 --配置的url
         addUrlToMap(imageUrl,ValidateCodeType.IMAGE);
         //  默认的需要校验图片验证码的URL 即：处理登录请求的的URL
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM,ValidateCodeType.IMAGE);
+        urlMap.put(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM,ValidateCodeType.IMAGE);
 
         // 需要验证短信验证码的url
         String smsUrl = securityProperties.getCode().getSms().getUrl();
         // 解析需要校验的 --配置的url
         addUrlToMap(smsUrl, ValidateCodeType.SMS);
         // 处理手机登录请求的的URL
-        urlMap.put(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
+        urlMap.put(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE, ValidateCodeType.SMS);
 
     }
 

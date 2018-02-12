@@ -128,6 +128,24 @@ mv = ha.handle(processedRequest, response, mappedHandler.getHandler());
 14.swagger
 http://localhost:8090/swagger-ui.html
 
+15.自定义错误页面404.html
+返回/error错误时，映射到BasicErrorController上，如果是html，调用resolveErrorView方法，处理错误视图。
+DefaultErrorViewResolver类resolveErrorView方法处理错误视图。
+／目录，classpath:/META-INF/resources/目录，classpath:/resources/目录，classpath:/static/目录，classpath:/public/目录
+查找自定义的页面/error/4xx.html
+可以下面方式自定义错误页面位置。。。。。
+@Bean
+public EmbeddedServletContainerCustomizer containerCustomizer() {
+   return (container -> {
+        ErrorPage error401Page = new ErrorPage(HttpStatus.UNAUTHORIZED, "/401.html");
+        ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/404.html");
+        ErrorPage error500Page = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR, "/500.html");
+        container.addErrorPages(error401Page, error404Page, error500Page);
+   });
+}
+
+来源：慕课网
+本文原创发布于慕课网 ，转载请注明出处，谢谢合作
 
 
 ## License

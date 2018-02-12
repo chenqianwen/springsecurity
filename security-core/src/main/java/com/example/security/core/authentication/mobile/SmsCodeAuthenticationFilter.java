@@ -1,7 +1,8 @@
 package com.example.security.core.authentication.mobile;
 
+import com.example.security.core.constants.SecurityConstants;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -34,8 +35,7 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
      * 过滤器需要处理的 相匹配请求
      */
     public SmsCodeAuthenticationFilter() {
-        //super(new AntPathRequestMatcher("/login", "POST"));
-        super(new AntPathRequestMatcher("/authentication/mobile", "POST"));
+        super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_MOBILE, HttpMethod.POST.name()));
     }
 
     /**

@@ -44,7 +44,7 @@ example:
 #    自定义登录页面
 #      loginPage: /demo-signIn.html
 #    自定义返回格式 (JSON/REDIRECT)
-#      loginType: REDIRECT
+#      loginType: JSON
     social:
       filterProcessesUrl: /login
       qq:

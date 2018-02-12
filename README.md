@@ -76,10 +76,28 @@ getDecisionVoters()获取投票器spring3.X以后，web请求只有一个WebExpr
 
 ExceptionTranslationFilter判断是否是AuthenticationException,如果不是则调用处理异常的方法handleSpringSecurityException
 handleSpringSecurityException方法中判断是否是AccessDeniedException，如果是再判断Authentication是否匿名。
-如果是匿名的认证，sendStartAuthentication()去做身份认证，调转到用户配置的loginPage的路径上
+如果是匿名的认证，sendStartAuthentication()去做身份认证，
+private RequestCache requestCache = new HttpSessionRequestCache();
+requestCache.saveRequest(request, response);
+将一开始请求存到缓存中。。。。。。。。
+并且调转到用户配置的loginPage的路径上。
+当请求成功之后String targetUrl = savedRequest.getRedirectUrl();获取存换的一开始请求页面，并跳转到该页面。
 如果不是匿名的认证，则返回403的错误。
 
 **请求ok流程**
+filter中认证成功调用自定义AuthenticationSuccessHandler
+如果请求其他页面，则:
+ExceptionTranslationFilter中调用sendStartAuthentication()去做身份认证，
+private RequestCache requestCache = new HttpSessionRequestCache();
+requestCache.saveRequest(request, response);
+将一开始请求存到缓存中。并跳转到配置的登录页。
+登录成功之后AuthenticationSuccessHandler，对于html请求，如果没有指定成功的页面，则调用父类
+SavedRequestAwareAuthenticationSuccessHandler中的onAuthenticationSuccess方法
+SavedRequest savedRequest = requestCache.getRequest(request, response);
+String targetUrl = savedRequest.getRedirectUrl();
+从缓存中取到一开始的URL，并调转到一开始请求的url
+
+当请求成功之后String targetUrl = savedRequest.getRedirectUrl();获取存换的一开始请求页面，并跳转到该页面。
 
 由于用户配置的 .antMatchers(HttpMethod.GET,"/user/*").hasRole("ADMIN")中hasRole方法会将ADMIN组装成hasRole(ROLE_ADMIN)
 所以UserDetailsService中需要给ROLE_ADMIN的权限
@@ -103,7 +121,32 @@ hasIoAddress('127.0.0.1'') 请求发送的ip匹配时返回true
 
 ## 前言
 
- **一.开发基于表单的认证**
+**一.关于security的配置**
+HttpSecurity http -->
+http.formLogin()
+    // 未经过认证时，请求跳转的地址
+    .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
+    // 登录处理的url，也就是form表单提交时指定的action
+    .loginProcessingUrl(SecurityConstants.DEFAULT_LOGIN_PROCESSING_URL_FORM)
+    // 认证成功处理器
+    .successHandler(iAuthenticationSuccessHandler)
+    // 认证失败处理器
+    .failureHandler(iAuthenticationFailureHandler);
+formLogin(): 使用form表单进行登录代替默认的httpBasic登录。
+loginPage(): 未经过认证时，请求跳转的url,可以是页面可以是方法映射
+loginProcessingUrl(): 拦截的登录url，映射到UsernamePasswordAuthenticationFilter的filterProcessesUrl属性。默认值是“/ login”。
+
+http.rememberMe()
+    .tokenRepository(persistentTokenRepository())
+    .tokenValiditySeconds(defaultRememberMeSeconds)
+    .userDetailsService(userDetailsService);
+tokenRepository()：数据库表操作persistent_logins
+tokenValiditySeconds(): 记住我时间
+userDetailsService(): 通过token查询得到username，通过username查询user时需要userDetailsService
+
+
+
+ **二.开发基于表单的认证**
  - 图形验证码基本参数可配置
  
         1.security-core中默认有图形验证码的参数
@@ -127,11 +170,8 @@ hasIoAddress('127.0.0.1'') 请求发送的ip匹配时返回true
         1.security-core中默认有短信验证发送逻辑DefaultSmsCodeSender
         2.demo中可实现SmsCodeSender接口，重写发送短信的逻辑
         
-        
         ValidateCodeProcessor 处理整个验证码生成流程：生成，储存，发送
 - 子类实例化后的名称要以ValidateCodeProcessor结尾
-        
-        
         社交登陆的验证提供者是SocialAuthenticationProvider类
         
         QQ互联的接口流程：
@@ -161,6 +201,14 @@ hasIoAddress('127.0.0.1'') 请求发送的ip匹配时返回true
                 OpenID是此网站上或应用中唯一对应用户身份的标识，网站或应用可将此ID进行存储，便于用户下次登录时辨识其身份，或将其与用户在网站上或应用中的原有账号进行绑定。
                 access_token	必须	在Step1中获取到的access token。
         4. 通过access_token和open_id即可调用其他的接口   
+ 
+
+ **三.记住我**
+ 原理:
+认证请求-->UsernamePasswordAuthenticationFilter-->RememberMeService(TokenRepository)-->Token写入db-->Token写入cookie
+请求-->RememberMeAuthenticationFilter-->读取cookie中Token-->db查询Token
+RememberMeAuthenticationFilter绿色过滤器倒数第二个
+ 
         
 ##  Spring Social开发第三方登陆时流程
     0.  访问Client

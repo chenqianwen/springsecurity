@@ -1,7 +1,7 @@
 package com.example.security.core.validate.code;
 
 
-import com.example.security.core.properties.SecurityConstants;
+import com.example.security.core.constants.SecurityConstants;
 
 /**
  * @author： yl
