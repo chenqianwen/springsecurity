@@ -179,7 +179,6 @@ userDetailsService(): 通过token查询得到username，通过username查询user
             appid：应用的唯一标识。在OAuth2.0认证过程中，appid的值即为oauth_consumer_key的值。
             appkey：appid对应的密钥，访问用户资源时用来验证应用的合法性。在OAuth2.0认证过程中，appkey的值即为oauth_consumer_secret的值。
         2.登陆其他client时，导向qq/wx的认证服务器
-            
         3.获取授权码
             a. 获取对应的授权码接口地址：https://graph.qq.com/oauth2.0/authorize
                 response_type	必须	授权类型，此值固定为“code”。

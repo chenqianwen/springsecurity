@@ -1,6 +1,7 @@
 package com.example.security.core.properties;
 
 import com.example.security.core.constants.SecurityConstants;
+import com.example.security.core.enums.LoginType;
 import lombok.Data;
 /**
  * @author： yl

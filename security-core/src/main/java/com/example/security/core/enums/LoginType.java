@@ -1,4 +1,4 @@
-package com.example.security.core.properties;
+package com.example.security.core.enums;
 
 import com.alibaba.fastjson.JSON;
 /**

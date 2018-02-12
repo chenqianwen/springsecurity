@@ -1,6 +1,6 @@
 package com.example.security.browser.authentication;
 
-import com.example.security.core.properties.LoginType;
+import com.example.security.core.enums.LoginType;
 import com.example.security.core.properties.SecurityProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
@@ -48,16 +48,14 @@ public class IAuthenticationSuccessHandler extends SavedRequestAwareAuthenticati
         else {
             /**
              * 如果设置了security.browser.singInSuccessUrl，总是跳到设置的地址上
+             * 如果没设置，则尝试跳转到登录之前访问的地址上，如果登录前访问地址为空，则跳到网站根路径上
+             * SavedRequestAwareAuthenticationSuccessHandler中处理
              */
             if (StringUtils.isNotBlank(securityProperties.getBrowser().getSingInSuccessUrl())) {
                 requestCache.removeRequest(request, response);
                 setAlwaysUseDefaultTargetUrl(true);
                 setDefaultTargetUrl(securityProperties.getBrowser().getSingInSuccessUrl());
             }
-            /**
-             * 如果没设置，则尝试跳转到登录之前访问的地址上，如果登录前访问地址为空，则跳到网站根路径上
-             * SavedRequestAwareAuthenticationSuccessHandler中处理
-             */
             super.onAuthenticationSuccess(request, response, authentication);
         }
     }

@@ -1,9 +1,7 @@
 package com.example.security.core.social.weibo.config;
 
-import com.example.security.core.properties.QQProperties;
 import com.example.security.core.properties.SecurityProperties;
 import com.example.security.core.properties.WeiboProperties;
-import com.example.security.core.social.qq.connect.QQConnectionFactory;
 import com.example.security.core.social.weibo.connect.WeiboConnectionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

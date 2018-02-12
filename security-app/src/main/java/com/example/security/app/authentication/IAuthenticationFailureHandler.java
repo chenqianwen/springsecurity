@@ -1,6 +1,6 @@
 package com.example.security.app.authentication;
 
-import com.example.security.core.properties.LoginType;
+import com.example.security.core.enums.LoginType;
 import com.example.security.core.properties.SecurityProperties;
 import com.example.security.core.support.SimpleResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;

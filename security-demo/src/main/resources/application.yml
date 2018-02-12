@@ -39,6 +39,7 @@ example:
 #        url: /user/*
 #    浏览器配置---
     browser:
+#      singInSuccessUrl: /index.html
       signOutUrl: /demo-logout.html
       signUpUrl: /demo-signUp.html
 #    自定义登录页面

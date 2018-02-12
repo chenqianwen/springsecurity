@@ -1,6 +1,5 @@
 package com.example.security.app.authentication;
 
-import com.example.security.core.properties.LoginType;
 import com.example.security.core.properties.SecurityProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.MapUtils;
