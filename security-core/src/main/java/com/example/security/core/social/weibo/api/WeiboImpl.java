@@ -1,12 +1,8 @@
 package com.example.security.core.social.weibo.api;
 
 import com.alibaba.fastjson.JSONObject;
-import com.example.security.core.social.qq.api.QQ;
-import com.example.security.core.social.qq.api.QQUserInfo;
-import com.example.security.core.social.weixin.api.WeixinUserInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.social.oauth2.AbstractOAuth2ApiBinding;
 import org.springframework.social.oauth2.TokenStrategy;
 /**

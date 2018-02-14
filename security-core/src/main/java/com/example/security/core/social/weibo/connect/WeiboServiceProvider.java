@@ -1,12 +1,8 @@
 package com.example.security.core.social.weibo.connect;
 
-import com.example.security.core.social.qq.api.QQ;
-import com.example.security.core.social.qq.api.QQImpl;
-import com.example.security.core.social.qq.connect.QQOAuth2Template;
 import com.example.security.core.social.weibo.api.Weibo;
 import com.example.security.core.social.weibo.api.WeiboImpl;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
-import org.springframework.social.oauth2.OAuth2Template;
 /**
  * @author： ygl
  * @date： 2018/2/7-13:07
