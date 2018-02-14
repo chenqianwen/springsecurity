@@ -335,7 +335,7 @@ appkey：appid对应的密钥，访问用户资源时用来验证应用的合法
 openid: 授权用户唯一标识
 
 ##  Spring Security OAuth 开发APP认证框架
-
+默认的/oauth/*的请求都将被允许。。。。
 获取token请求--> TokenEndpoint -->  
 1.  ClientDetailsService接口: 读取第三方应用的信息，根据clientId读取client配置信息
     默认实现： InMemoryClientDetailsService
@@ -371,6 +371,28 @@ TokenEnhancer: 令牌增强器
 
         return accessTokenEnhancer != null ? accessTokenEnhancer.enhance(token, authentication) : token;
     }
+accessTokenEnhancer.enhance方法：即TokenEnhancer接口的enhance方法。
+调用TokenEnhancerChain类中enhance方法，遍历所有的TokenEnhancer，调用其enhance方法。
+可以实现TokenEnhancer接口，调用IJwtTokenEnhancer的enhance方法，增强token。添加额外信息。
+可以集成JwtAccessTokenConverter，调用setSigningKey方法，改变token原来的uuid形式，设置签名。
+在JwtAccessTokenConverter类encode方法中，通过自定的签名密钥生成的signer进行加密。
+String token = JwtHelper.encode(content, signer).getEncoded();
+多个TokenEnhancer实现的时候可以用TokenEnhancerChain类。
+
+
+资源服务器：
+@EnableResourceServer注释会OAuth2AuthenticationProcessingFilter自动向Spring Security过滤器链添加一个类型的过滤器。
+OAuth2AuthenticationProcessingFilter过滤没有允许的请求。
+在doFilter方法中，Authentication authentication = tokenExtractor.extract(request);通过token生成authentication。
+得到的认证authentication不为空时，Authentication authResult = authenticationManager.authenticate(authentication);
+则调用OAuth2AuthenticationManager的authenticate方法，验证authentication。
+OAuth2Authentication auth = tokenServices.loadAuthentication(token);验证token
+在JwtAccessTokenConverter类decode方法中，通过自定的签名密钥生成的signer进行解密。
+Jwt jwt = JwtHelper.decodeAndVerify(token, verifier);
+
+
+
+
 
 ##  综上重构自己的登录
  自己的请求通过Filter,如果认证成功，都会进入AuthenticationSuccessHandler。在onAuthenticationSuccess方法中

@@ -43,6 +43,14 @@ public interface SecurityConstants {
      */
     public static final String DEFAULT_PARAMETER_NAME_MOBILE = "mobile";
     /**
+     * 用户名密码登录时，传递用户名的参数的名称
+     */
+    public static final String DEFAULT_PARAMETER_NAME_USERNAME = "name";
+    /**
+     * 用户名密码登录时，传递密码的参数的名称
+     */
+    public static final String DEFAULT_PARAMETER_NAME_PASSWORD = "pwd";
+    /**
      * session失效默认的跳转地址
      */
     public static final String DEFAULT_SESSION_INVALID_URL = "/default-session-invalid.html";

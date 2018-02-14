@@ -24,6 +24,8 @@ public class FormAuthenticationConfig {
 
     public void configure(HttpSecurity http) throws Exception {
         http.formLogin()
+                .usernameParameter(SecurityConstants.DEFAULT_PARAMETER_NAME_USERNAME)
+                .passwordParameter(SecurityConstants.DEFAULT_PARAMETER_NAME_PASSWORD)
                 // 未经过认证时，请求跳转的地址
                 .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
                   /**
