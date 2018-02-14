@@ -35,8 +35,6 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private PersistentTokenRepository persistentTokenRepository;
 
     @Override
     public void configure(HttpSecurity http) {
@@ -45,8 +43,8 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
         smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(iAuthenticationSuccessHandler);
         smsCodeAuthenticationFilter.setAuthenticationFailureHandler(iAuthenticationFailureHandler);
         // TODO 记住我
-        String key = UUID.randomUUID().toString();
-        smsCodeAuthenticationFilter.setRememberMeServices(new PersistentTokenBasedRememberMeServices(key, userDetailsService, persistentTokenRepository));
+//        String key = UUID.randomUUID().toString();
+//        smsCodeAuthenticationFilter.setRememberMeServices(new PersistentTokenBasedRememberMeServices(key, userDetailsService, persistentTokenRepository));
 
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
         smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);
