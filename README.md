@@ -210,15 +210,15 @@ RememberMeAuthenticationFilter绿色过滤器倒数第二个
  
         
 ##  Spring Social开发第三方登陆时流程
-    0.  访问Client
-    1.  将用户导向认证服务器
-    2.  用户同意授权
-    3.  认证服务器带上授权码回调Client
-    4.  客户端根据授权码申请token
-    5.  认证服务器发放token
-    6.  客户端通过token获取用户信息（每个服务商都不相同）
-    7.  根据得到的用户信息构建Authentication放入SecurityContext
-    注:  SecurityContext放入认证后的Authentication实例之后，就表示登陆成功了！
+0.  访问Client
+1.  将用户导向认证服务器
+2.  用户同意授权
+3.  认证服务器带上授权码回调Client
+4.  客户端根据授权码申请token
+5.  认证服务器发放token
+6.  客户端通过token获取用户信息（每个服务商都不相同）
+7.  根据得到的用户信息构建Authentication放入SecurityContext
+注:  SecurityContext放入认证后的Authentication实例之后，就表示登陆成功了！
 
 - Spring Social封装了上述流程
     封装到了SocialAuthenticationFilter过滤器中,并将过滤器加入spring security的过滤器链中。
@@ -265,7 +265,7 @@ OAuth2AuthenticationService:
             }
         }     
         
-SocialAuthenticationProvider: 真正认证社交登录逻辑：
+SocialAuthenticationProvider: 认证社交登录逻辑：
     通过usersConnectionRepository把用户信息去查询社交用户是否存在
     List<String> userIds = this.usersConnectionRepository.findUserIdsWithConnection(connection);
     具体实现如下：
@@ -336,6 +336,10 @@ openid: 授权用户唯一标识
 
 ##  Spring Security OAuth 开发APP认证框架
 
+授权码模式获取token：
+AuthorizationEndpoint获取授权码
+
+密码模式获取token：
 获取token请求--> TokenEndpoint -->  
 1.  ClientDetailsService接口: 读取第三方应用的信息，根据clientId读取client配置信息
     默认实现： InMemoryClientDetailsService
