@@ -1,6 +1,6 @@
 package com.example.security.core.constants;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
@@ -45,7 +45,7 @@ public interface SecurityConstants {
     /**
      * session失效默认的跳转地址
      */
-    public static final String DEFAULT_SESSION_INVALID_URL = "/session/invalid";
+    public static final String DEFAULT_SESSION_INVALID_URL = "/default-session-invalid.html";
     /**
      * 默认的的社交登陆携带用户openId信息的参数的名称
      */
@@ -54,5 +54,8 @@ public interface SecurityConstants {
      * 默认的的社交登陆携带服务提供商providerId信息的参数的名称
      */
     public static final String DEFAULT_PARAMETER_NAME_PROVIDERID = "providerId";
-
+    /**
+     * 获取第三方用户信息的url
+     */
+    String DEFAULT_SOCIAL_USER_INFO_URL = "/social/user";
 }

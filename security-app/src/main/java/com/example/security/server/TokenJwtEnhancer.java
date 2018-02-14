@@ -1,4 +1,4 @@
-package com.example.security.app.jwt;
+package com.example.security.server;
 
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -9,17 +9,17 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import java.util.HashMap;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
-public class IJwtTokenEnhancer implements TokenEnhancer {
+public class TokenJwtEnhancer implements TokenEnhancer {
 
     @Override
     public OAuth2AccessToken enhance(OAuth2AccessToken accessToken, OAuth2Authentication authentication) {
 
         HashMap<String, Object> info = new HashMap<>(1);
-        info.put("company","lloveyou");
+        info.put("company","Love");
 
         ((DefaultOAuth2AccessToken)accessToken).setAdditionalInformation(info);
 

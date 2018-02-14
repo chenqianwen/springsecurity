@@ -3,7 +3,7 @@ package com.example.dto;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */

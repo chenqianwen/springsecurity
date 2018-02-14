@@ -1,4 +1,4 @@
-package com.example.security.app.social.openid;
+package com.example.security.app.authentication.openid;
 
 import com.example.security.core.constants.SecurityConstants;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
@@ -31,7 +31,6 @@ public class OpenIdAuthenticationFilter extends AbstractAuthenticationProcessing
      * 过滤器需要处理的 相匹配请求
      */
     public OpenIdAuthenticationFilter() {
-        //super(new AntPathRequestMatcher("/login", "POST"));
         super(new AntPathRequestMatcher(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_OPENID, "POST"));
     }
 

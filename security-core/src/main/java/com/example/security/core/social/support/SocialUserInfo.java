@@ -1,8 +1,9 @@
-package com.example.security.browser.support;
+package com.example.security.core.social.support;
 
 import lombok.Data;
+
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
@@ -15,7 +16,7 @@ public class SocialUserInfo {
     private String providerId;
 
     /**
-     * openid
+     * 第三方用户ID openid
      */
     private String providerUserId;
 

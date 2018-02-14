@@ -10,12 +10,17 @@ import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenBasedRememberMeServices;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Component;
+
+import java.util.UUID;
+
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
- * 短信验证码的配置
+ * 短信登录配置
  */
 @Component
 public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapter<DefaultSecurityFilterChain,HttpSecurity>{
@@ -30,12 +35,18 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private PersistentTokenRepository persistentTokenRepository;
+
     @Override
     public void configure(HttpSecurity http) {
         SmsCodeAuthenticationFilter smsCodeAuthenticationFilter = new SmsCodeAuthenticationFilter();
         smsCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
         smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(iAuthenticationSuccessHandler);
         smsCodeAuthenticationFilter.setAuthenticationFailureHandler(iAuthenticationFailureHandler);
+        // TODO 记住我
+        String key = UUID.randomUUID().toString();
+        smsCodeAuthenticationFilter.setRememberMeServices(new PersistentTokenBasedRememberMeServices(key, userDetailsService, persistentTokenRepository));
 
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();
         smsCodeAuthenticationProvider.setUserDetailsService(userDetailsService);

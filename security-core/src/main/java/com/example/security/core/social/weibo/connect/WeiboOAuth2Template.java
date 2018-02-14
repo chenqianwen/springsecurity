@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */

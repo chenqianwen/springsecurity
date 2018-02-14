@@ -12,14 +12,14 @@ import org.springframework.web.client.RestTemplate;
 import java.nio.charset.Charset;
 import java.util.List;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
 @Slf4j
-public class QQOAuth2Template extends OAuth2Template {
+public class QqOAuth2Template extends OAuth2Template {
 
-    public QQOAuth2Template(String clientId, String clientSecret, String authorizeUrl, String accessTokenUrl) {
+    public QqOAuth2Template(String clientId, String clientSecret, String authorizeUrl, String accessTokenUrl) {
         super(clientId, clientSecret, authorizeUrl, accessTokenUrl);
         setUseParametersForClientAuthentication(true);
     }

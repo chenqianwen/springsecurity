@@ -20,9 +20,10 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 校验验证码的过滤器
  * OncePerRequestFilter 工具类：过滤器只会被调用一次
  * InitializingBean: 是为了在在其他参数组装完毕后，初始化urls的值
  */
@@ -34,30 +35,25 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
      */
     @Autowired
     private AuthenticationFailureHandler iAuthenticationFailureHandler;
-
     /**
      * 系统配置信息
      */
     @Autowired
     private SecurityProperties securityProperties;
-
     /**
      * 系统中的校验码处理器
      */
     @Autowired
     private ValidateCodeProcessorHolder validateCodeProcessorHolder;
-
     /**
      * 存放所有需要校验验证码的url
      * 例如：{"/authentication/form" : IMAGE}
      */
     private Map<String,ValidateCodeType> urlMap = new HashedMap();
-
     /**
      * 验证请求url与配置的url是否匹配的工具类
      */
     private AntPathMatcher pathMatcher = new AntPathMatcher();
-
     /**
      * 初始化urs的值
      * @throws ServletException
@@ -65,7 +61,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
     @Override
     public void afterPropertiesSet() throws ServletException {
         super.afterPropertiesSet();
-
         // 获取配置的 -- 需要验证图片验证码的url
         String imageUrl = securityProperties.getCode().getImage().getUrl();
         // 解析需要校验的 --配置的url
@@ -106,13 +101,10 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
         if (type != null) {
             logger.info("校验请求（"+request.getRequestURI()+")中的验证码，验证码类型："+ type);
             try {
-
                 // 通过校验器的类型 获取对应的验证码处理器
                 ValidateCodeProcessor validateCodeProcessor = validateCodeProcessorHolder.findValidateCodeProcessor(type);
-
                 // 校验 验证码
                 validateCodeProcessor.validate(new ServletWebRequest(request,response));
-
                 logger.info("校验码通过*******");
             }   catch (ValidateCodeException e) {
                 /**
@@ -128,7 +120,6 @@ public class ValidateCodeFilter extends OncePerRequestFilter implements Initiali
 
     /**
      * 获取校验码的类型，如果当前请求不需要校验，则返回null
-     *
      * @param request
      * @return
      */

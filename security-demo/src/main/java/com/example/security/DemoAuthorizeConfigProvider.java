@@ -7,7 +7,7 @@ import org.springframework.security.config.annotation.web.configurers.Expression
 import org.springframework.stereotype.Component;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
@@ -16,10 +16,11 @@ import org.springframework.stereotype.Component;
 public class DemoAuthorizeConfigProvider implements AuthorizeConfigProvider {
 
     @Override
-    public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
+    public boolean config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
         config.antMatchers("/index.html")
               .hasRole("ADMIN")
         ;
+        return false;
         // rbacService指的是service名称
         //config.anyRequest().access("@rbacService.hasPermission(request,Authentication)");
         // 多权限用access方法

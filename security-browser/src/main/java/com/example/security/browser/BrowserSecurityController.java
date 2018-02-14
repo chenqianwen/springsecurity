@@ -1,7 +1,8 @@
 package com.example.security.browser;
 
+import com.example.security.core.social.SocialController;
+import com.example.security.core.social.support.SocialUserInfo;
 import com.example.security.core.support.SimpleResponse;
-import com.example.security.browser.support.SocialUserInfo;
 import com.example.security.core.constants.SecurityConstants;
 import com.example.security.core.properties.SecurityProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -26,14 +27,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
- * 处理请求
+ *  浏览器环境下与安全相关的服务处理请求
  */
 @RestController
 @Slf4j
-public class BrowserSecurityController {
+public class BrowserSecurityController extends SocialController {
 
     private String urlEndWithHtml = ".html";
 
@@ -85,29 +86,10 @@ public class BrowserSecurityController {
      * @param request
      * @return
      */
-    @GetMapping("/social/user")
+    @GetMapping(SecurityConstants.DEFAULT_SOCIAL_USER_INFO_URL)
     public SocialUserInfo getSocialUserInfo(HttpServletRequest request) {
-
-        SocialUserInfo socialUserInfo = new SocialUserInfo();
-
         Connection<?> connectionFromSession = providerSignInUtils.getConnectionFromSession(new ServletWebRequest(request));
-        socialUserInfo.setProviderId(connectionFromSession.getKey().getProviderId());
-        socialUserInfo.setProviderUserId(connectionFromSession.getKey().getProviderUserId());
-        socialUserInfo.setNickname(connectionFromSession.getDisplayName());
-        socialUserInfo.setHeadImg(connectionFromSession.getImageUrl());
-
-        return socialUserInfo;
+        return buildSocialUserInfo(connectionFromSession);
     }
 
-
-    /**
-     * session失效跳转到这里
-     * @return
-     */
-    @GetMapping("/session/invalid")
-    @ResponseStatus(code = HttpStatus.UNAUTHORIZED)
-    public SimpleResponse sessionInvalid() {
-        String message = "session失效";
-        return new SimpleResponse(message);
-    }
 }

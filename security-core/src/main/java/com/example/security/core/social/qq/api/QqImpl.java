@@ -9,13 +9,13 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * 需要声明 多实例的类
  * 若果用@Component则变成单例，AbstractOAuth2ApiBinding中的全局变量accessToken会有线程安全问题
  */
-public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
+public class QqImpl extends AbstractOAuth2ApiBinding implements Qq {
 
     private static final String URL_GET_OPENID = "https://graph.qq.com/oauth2.0/me?access_token=%s";
 
@@ -27,7 +27,7 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public QQImpl(String accessToken, String appId) {
+    public QqImpl(String accessToken, String appId) {
         /**
          * 父类的一个参数构造函数：默认的token策略：TokenStrategy.AUTHORIZATION_HEADER 将access_token放到请求头
          *
@@ -47,7 +47,7 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
     }
 
     @Override
-    public QQUserInfo getUserInfo() {
+    public QqUserInfo getUserInfo() {
 
         String url = String.format(URL_GET_USERINFO,appId,openId);
 
@@ -55,9 +55,9 @@ public class QQImpl extends AbstractOAuth2ApiBinding implements QQ {
 
         System.out.println("QQUserInfo"+result);
 
-        QQUserInfo userInfo = null;
+        QqUserInfo userInfo = null;
         try {
-            userInfo = objectMapper.readValue(result, QQUserInfo.class);
+            userInfo = objectMapper.readValue(result, QqUserInfo.class);
             userInfo.setOpenId(openId);
         } catch (Exception e) {
             throw new RuntimeException("获取用户信息失败");

@@ -3,9 +3,10 @@ package com.example.security.core.validate.code;
 import org.springframework.web.context.request.ServletWebRequest;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 校验码存取器
  */
 public interface ValidateCodeRepository {
 
@@ -16,7 +17,6 @@ public interface ValidateCodeRepository {
      * @param validateCodeType
      */
     void save(ServletWebRequest request,ValidateCode code,ValidateCodeType validateCodeType);
-
     /**
      * 获取验证码
      * @param request
@@ -24,7 +24,6 @@ public interface ValidateCodeRepository {
      * @return
      */
     ValidateCode get(ServletWebRequest request,ValidateCodeType validateCodeType);
-
     /**
      * 移除验证码
      * @param request

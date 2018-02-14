@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 import java.awt.image.BufferedImage;
 import java.time.LocalDateTime;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 图片验证码
  */
 @Data
 @AllArgsConstructor

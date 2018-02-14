@@ -1,4 +1,4 @@
-package com.example.security.core.social;
+package com.example.security.core.social.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.collections.CollectionUtils;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * QQ/WX 连接信息的视图

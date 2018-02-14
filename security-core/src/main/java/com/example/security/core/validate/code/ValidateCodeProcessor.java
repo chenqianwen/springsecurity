@@ -3,7 +3,7 @@ package com.example.security.core.validate.code;
 
 import org.springframework.web.context.request.ServletWebRequest;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * 校验码处理器，封装不同校验码的处理逻辑
@@ -16,7 +16,6 @@ public interface ValidateCodeProcessor {
      * @throws Exception
      */
     void create(ServletWebRequest request) throws Exception;
-
     /**
      * 校验验证码
      * @param servletWebRequest

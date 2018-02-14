@@ -2,16 +2,15 @@ package com.example.security.core.social;
 
 
 import com.example.security.core.properties.SecurityProperties;
+import com.example.security.core.social.support.ISpringSocialConfigurer;
 import com.example.security.core.social.support.SocialAuthenticationFilterPostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.social.SocialAutoConfigurerAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.social.config.annotation.EnableSocial;
 import org.springframework.social.config.annotation.SocialConfigurerAdapter;
-import org.springframework.social.connect.ConnectionFactory;
 import org.springframework.social.connect.ConnectionFactoryLocator;
 import org.springframework.social.connect.ConnectionSignUp;
 import org.springframework.social.connect.UsersConnectionRepository;
@@ -19,11 +18,10 @@ import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.security.SpringSocialConfigurer;
 
-import javax.crypto.EncryptedPrivateKeyInfo;
 import javax.sql.DataSource;
-import java.security.Provider;
+
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
@@ -32,7 +30,6 @@ import java.security.Provider;
 public class SocialConfig extends SocialConfigurerAdapter {
 
 
-    @Qualifier("dataSource")
     @Autowired
     private DataSource dataSource;
 
@@ -77,7 +74,6 @@ public class SocialConfig extends SocialConfigurerAdapter {
 
     @Bean
     public SpringSocialConfigurer iSpringSocialConfigurer() {
-        //return new SpringSocialConfigurer();
         String filterProcessesUrl = securityProperties.getSocial().getFilterProcessesUrl();
         ISpringSocialConfigurer iSpringSocialConfigurer = new ISpringSocialConfigurer(filterProcessesUrl);
         // 如果没有查询到对应的社交用户信息，设置跳转到注册页面的URL

@@ -4,7 +4,7 @@ import com.example.security.core.social.weixin.api.Weixin;
 import com.example.security.core.social.weixin.api.WeixinImpl;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  *

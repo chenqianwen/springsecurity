@@ -4,7 +4,7 @@ import com.example.security.core.validate.code.image.ImageCode;
 import com.example.security.core.validate.code.ValidateCodeGenerator;
 import org.springframework.web.context.request.ServletWebRequest;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * 自定义图形验证码的生成

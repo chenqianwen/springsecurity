@@ -16,7 +16,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * 默认的短信验证码的生成器

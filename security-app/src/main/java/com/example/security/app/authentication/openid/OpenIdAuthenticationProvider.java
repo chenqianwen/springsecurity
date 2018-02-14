@@ -1,6 +1,5 @@
-package com.example.security.app.social.openid;
+package com.example.security.app.authentication.openid;
 
-import com.example.security.core.authentication.mobile.SmsCodeAuthenticationToken;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.collections.CollectionUtils;
@@ -8,8 +7,6 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
@@ -18,7 +15,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */

@@ -1,7 +1,5 @@
-package com.example.security.app.social.openid;
+package com.example.security.app.authentication.openid;
 
-import com.example.security.core.authentication.mobile.SmsCodeAuthenticationFilter;
-import com.example.security.core.authentication.mobile.SmsCodeAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
@@ -15,7 +13,7 @@ import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Component;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */

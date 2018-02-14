@@ -4,9 +4,10 @@ package com.example.security.core.validate.code;
 import com.example.security.core.constants.SecurityConstants;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 校验码类型
  */
 public enum ValidateCodeType {
 	
@@ -28,7 +29,6 @@ public enum ValidateCodeType {
 			return SecurityConstants.DEFAULT_PARAMETER_NAME_CODE_IMAGE;
 		}
 	};
-
 	/**
 	 * 校验时从请求中获取的参数的名字
 	 * @return

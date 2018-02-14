@@ -5,9 +5,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 校验码处理器管理器
  * 通过 类型 获取 验证码处理器的 工具类
  * 处理器的bean名称需要以 ValidateCodeProcessor 结尾
  * 类型的字符串 需要和 ValidateCodeProcessor 前的字符串 相等
@@ -25,7 +26,6 @@ public class ValidateCodeProcessorHolder {
 	public ValidateCodeProcessor findValidateCodeProcessor(ValidateCodeType type) {
 		return findValidateCodeProcessor(type.toString().toLowerCase());
 	}
-
 	/**
 	 * 通过类型（image 或者 sms）获取对应的验证码处理器
 	 * @param type : image 或者 sms

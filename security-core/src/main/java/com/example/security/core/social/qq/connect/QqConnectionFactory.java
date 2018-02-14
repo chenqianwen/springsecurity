@@ -1,15 +1,13 @@
 package com.example.security.core.social.qq.connect;
 
-import com.example.security.core.social.qq.api.QQ;
-import org.springframework.social.connect.ApiAdapter;
+import com.example.security.core.social.qq.api.Qq;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
-import org.springframework.social.oauth2.OAuth2ServiceProvider;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
-public class QQConnectionFactory extends OAuth2ConnectionFactory<QQ> {
+public class QqConnectionFactory extends OAuth2ConnectionFactory<Qq> {
     /**
      *  ConnectionFactory需要的参数列表：
      *     private final String providerId;
@@ -19,7 +17,7 @@ public class QQConnectionFactory extends OAuth2ConnectionFactory<QQ> {
      * @param appId
      * @param appSecret
      */
-    public QQConnectionFactory(String providerId, String appId,String appSecret) {
-        super(providerId, new QQServiceProvider(appId,appSecret), new QQAdapter());
+    public QqConnectionFactory(String providerId, String appId,String appSecret) {
+        super(providerId, new QqServiceProvider(appId,appSecret), new QqAdapter());
     }
 }

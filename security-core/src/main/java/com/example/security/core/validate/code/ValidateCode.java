@@ -8,9 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 验证码信息封装类
  */
 @Data
 @AllArgsConstructor

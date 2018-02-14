@@ -1,6 +1,5 @@
-package com.example.security.app;
+package com.example.security.server;
 
-import com.example.security.app.jwt.IJwtTokenEnhancer;
 import com.example.security.core.properties.SecurityProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -15,7 +14,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * 如果配置redis则用redis存token
@@ -63,7 +62,7 @@ public class TokenStoreConfig {
         @Bean
         @ConditionalOnMissingBean(name = "jwtTokenEnhancer")
         public TokenEnhancer jwtTokenEnhancer(){
-            return new IJwtTokenEnhancer();
+            return new TokenJwtEnhancer();
         }
 
     }

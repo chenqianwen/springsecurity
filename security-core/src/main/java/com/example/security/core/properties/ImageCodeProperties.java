@@ -2,13 +2,14 @@ package com.example.security.core.properties;
 
 import lombok.Data;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
- * 配置图形验证码的属性
+ * 图片验证码配置项
  */
 @Data
 public class ImageCodeProperties extends SmsCodeProperties{
+
     /**
      * 默认宽度
      */

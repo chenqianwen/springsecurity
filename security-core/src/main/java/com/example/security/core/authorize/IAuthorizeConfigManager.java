@@ -8,9 +8,10 @@ import org.springframework.stereotype.Component;
 import java.util.Set;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 默认的授权配置管理器
  */
 @Component
 public class IAuthorizeConfigManager implements AuthorizeConfigManager {
@@ -24,10 +25,23 @@ public class IAuthorizeConfigManager implements AuthorizeConfigManager {
      */
     @Override
     public void config(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry config) {
+        boolean existAnyRequestConfig = false;
+        String existAnyRequestConfigName = null;
+
         for (AuthorizeConfigProvider authorizeConfigProvider : authorizeConfigProviders) {
-            authorizeConfigProvider.config(config);
+            boolean currentIsAnyRequestConfig = authorizeConfigProvider.config(config);
+            if (existAnyRequestConfig && currentIsAnyRequestConfig) {
+                throw new RuntimeException("重复的anyRequest配置:" + existAnyRequestConfigName + ","
+                          + authorizeConfigProvider.getClass().getSimpleName());
+            } else if (currentIsAnyRequestConfig) {
+                existAnyRequestConfig = true;
+                existAnyRequestConfigName = authorizeConfigProvider.getClass().getSimpleName();
+            }
         }
-        // 除了上述配置的其他的都要认证
-        config.anyRequest().authenticated();
+
+        if(!existAnyRequestConfig){
+            // 除了上述配置的其他的都要认证
+            config.anyRequest().authenticated();
+        }
     }
 }

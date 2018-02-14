@@ -11,13 +11,15 @@ import org.springframework.social.security.SocialUser;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
 @Component
+@Transactional
 @Slf4j
 public class MyUserDetailsServiceImpl implements UserDetailsService,SocialUserDetailsService{
 

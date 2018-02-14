@@ -6,6 +6,7 @@ import com.example.security.core.validate.code.ValidateCodeGenerator;
 import com.example.security.core.validate.code.image.ImageCode;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.context.request.ServletWebRequest;
 
@@ -13,13 +14,16 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.Random;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * 默认的图片验证码的生成器
  */
 public class ImageCodeGenerator implements ValidateCodeGenerator {
 
+    /**
+     * 系统配置
+     */
     @Setter
     @Getter
     private SecurityProperties securityProperties;

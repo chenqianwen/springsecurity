@@ -3,7 +3,7 @@ package com.example.security.core.properties;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.social.SocialProperties;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */

@@ -9,9 +9,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 验证码相关的扩展点配置。配置在这里的bean，业务系统都可以通过声明同类型或同名的bean来覆盖安全
+ * 模块默认的配置。
  */
 @Configuration
 public class ValidateCodeBeanConfig {
@@ -20,6 +22,7 @@ public class ValidateCodeBeanConfig {
     private SecurityProperties securityProperties;
 
     /**
+     * 图片验证码图片生成器
      * 系统启动时，初始化这个bean前
      * 如果能找到imageValidateCodeGenerator名字的bean，那么不会初始化
      * @return
@@ -32,6 +35,7 @@ public class ValidateCodeBeanConfig {
         return imageCodeGenerator;
     }
     /**
+     * 短信验证码发送器
      * 系统启动时，初始化这个bean前
      * 如果能找到SmsCodeSender接口的实现，那么不会初始化
      * @return

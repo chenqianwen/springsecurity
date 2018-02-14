@@ -1,16 +1,16 @@
 package com.example.security.core.social.qq.connect;
 
-import com.example.security.core.social.qq.api.QQ;
-import com.example.security.core.social.qq.api.QQUserInfo;
+import com.example.security.core.social.qq.api.Qq;
+import com.example.security.core.social.qq.api.QqUserInfo;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
-public class QQAdapter implements ApiAdapter<QQ>{
+public class QqAdapter implements ApiAdapter<Qq>{
 
     /**
      * 测试qq服务器是否可用
@@ -18,14 +18,14 @@ public class QQAdapter implements ApiAdapter<QQ>{
      * @return
      */
     @Override
-    public boolean test(QQ qq) {
+    public boolean test(Qq qq) {
         return true;
     }
 
     @Override
-    public void setConnectionValues(QQ qq, ConnectionValues connectionValues) {
+    public void setConnectionValues(Qq qq, ConnectionValues connectionValues) {
 
-        QQUserInfo userInfo = qq.getUserInfo();
+        QqUserInfo userInfo = qq.getUserInfo();
 
         connectionValues.setDisplayName(userInfo.getNickname());
         connectionValues.setImageUrl(userInfo.getFigureurl_qq_1());
@@ -38,7 +38,7 @@ public class QQAdapter implements ApiAdapter<QQ>{
 
 
     @Override
-    public UserProfile fetchUserProfile(QQ qq) {
+    public UserProfile fetchUserProfile(Qq qq) {
         return null;
     }
 
@@ -48,7 +48,7 @@ public class QQAdapter implements ApiAdapter<QQ>{
      * @param message
      */
     @Override
-    public void updateStatus(QQ qq, String message) {
+    public void updateStatus(Qq qq, String message) {
         // do nothing
     }
 }

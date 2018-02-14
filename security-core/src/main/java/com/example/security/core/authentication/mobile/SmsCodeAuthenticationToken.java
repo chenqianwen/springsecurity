@@ -5,10 +5,10 @@ import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
- * 封装登录信息
+ * 短信登录验证信息封装类
  * 认证之前存的是手机信息，认证之后存的是用户信息
  */
 public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {

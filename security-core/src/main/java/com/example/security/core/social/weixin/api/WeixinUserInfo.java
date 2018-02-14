@@ -2,7 +2,7 @@ package com.example.security.core.social.weixin.api;
 
 import lombok.Data;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */

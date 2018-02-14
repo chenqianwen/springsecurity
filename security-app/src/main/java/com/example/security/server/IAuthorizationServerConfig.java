@@ -1,6 +1,5 @@
-package com.example.security.app;
+package com.example.security.server;
 
-import com.example.security.app.jwt.IJwtTokenEnhancer;
 import com.example.security.core.properties.OAuth2ClientProperties;
 import com.example.security.core.properties.SecurityProperties;
 import org.apache.commons.lang.ArrayUtils;
@@ -13,6 +12,7 @@ import org.springframework.security.oauth2.config.annotation.configurers.ClientD
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
+import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -22,10 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
- * 认证服务器
+ * 认证服务器配置
  */
 @Configuration
 @EnableAuthorizationServer
@@ -50,7 +50,7 @@ public class IAuthorizationServerConfig extends AuthorizationServerConfigurerAda
     private TokenEnhancer jwtTokenEnhancer;
 
     /**
-     *
+     * 认证及token的配置
      * @param endpoints 入口点
      * @throws Exception
      */
@@ -60,19 +60,32 @@ public class IAuthorizationServerConfig extends AuthorizationServerConfigurerAda
                   .tokenStore(tokenStore)
                   .authenticationManager(authenticationManager)
                   .userDetailsService(userDetailsService);
-        if (jwtAccessTokenConverter != null && jwtTokenEnhancer != null) {
+        /**
+         * 多个TokenEnhancer实现类的时候可以用TokenEnhancerChain
+         */
+        if (jwtAccessTokenConverter != null || jwtTokenEnhancer != null) {
             TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
             List<TokenEnhancer> enhancers = new ArrayList<>();
-            enhancers.add(jwtTokenEnhancer);
-            enhancers.add(jwtAccessTokenConverter);
+            if (jwtAccessTokenConverter != null) {
+                enhancers.add(jwtAccessTokenConverter);
+            }
+            if (jwtTokenEnhancer != null) {
+                enhancers.add(jwtTokenEnhancer);
+            }
             tokenEnhancerChain.setTokenEnhancers(enhancers);
-
             endpoints
                   .tokenEnhancer(tokenEnhancerChain)
                   .accessTokenConverter(jwtAccessTokenConverter);
         }
     }
 
+    /**
+     * tokenKey的访问权限表达式配置
+     */
+    @Override
+    public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
+        security.tokenKeyAccess("permitAll()");
+    }
     /**
      * 客户端相关的配置
      * @param clients
@@ -96,7 +109,7 @@ public class IAuthorizationServerConfig extends AuthorizationServerConfigurerAda
                     // refreshToken有效时间
                     .refreshTokenValiditySeconds(2592000)
                     //请求范围
-                    .scopes("al1l")
+                    .scopes("all")
                 ;
             }
         }

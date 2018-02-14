@@ -10,7 +10,7 @@ import org.springframework.social.oauth2.TokenStrategy;
 import java.nio.charset.Charset;
 import java.util.List;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */

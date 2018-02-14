@@ -9,14 +9,14 @@ import org.springframework.boot.autoconfigure.social.SocialAutoConfigurerAdapter
 import org.springframework.context.annotation.Configuration;
 import org.springframework.social.connect.ConnectionFactory;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * 当配置文件中app-id配置值之后，所有的配置才会生效
  */
 @Configuration
 @ConditionalOnProperty(prefix = "example.security.social.qq",name = "app-id")
-public class QQAutoConfig extends SocialAutoConfigurerAdapter{
+public class QqAutoConfigurer extends SocialAutoConfigurerAdapter{
 
     @Autowired
     private SecurityProperties securityProperties;

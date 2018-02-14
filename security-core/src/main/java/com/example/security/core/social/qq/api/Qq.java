@@ -3,15 +3,15 @@ package com.example.security.core.social.qq.api;
 import java.io.IOException;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
-public interface QQ {
+public interface Qq {
 
     /**
      * 获取QQ服务商用户信息
      * @return
      */
-    QQUserInfo getUserInfo();
+    QqUserInfo getUserInfo();
 }

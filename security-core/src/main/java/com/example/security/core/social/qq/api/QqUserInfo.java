@@ -3,13 +3,13 @@ package com.example.security.core.social.qq.api;
 import lombok.Data;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * 获取qq的用户信息，对应的实体
  */
 @Data
-public class QQUserInfo {
+public class QqUserInfo {
     /**
      * openid是此网站上唯一对应用户身份的标识，
      * 网站可将此ID进行存储便于用户下次登录时辨识其身份，或将其与用户在网站上的原有账号进行绑定。

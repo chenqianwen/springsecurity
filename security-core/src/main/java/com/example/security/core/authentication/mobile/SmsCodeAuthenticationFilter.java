@@ -13,19 +13,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
- * 仿照 UsernamePasswordAuthenticationFilter
+ * 短信登录过滤器 仿照UsernamePasswordAuthenticationFilter
  */
 public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessingFilter {
-
-    public static final String SPRING_SECURITY_FORM_MOBILE_KEY = "mobile";
 
     /**
      * 请求中，接受手机号的参数名称
      */
-    private String mobileParameter = SPRING_SECURITY_FORM_MOBILE_KEY;
+    private String mobileParameter = SecurityConstants.DEFAULT_PARAMETER_NAME_MOBILE;
     /**
      * 只接受post请求
      */

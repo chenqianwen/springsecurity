@@ -26,7 +26,10 @@ public class FormAuthenticationConfig {
         http.formLogin()
                 // 未经过认证时，请求跳转的地址
                 .loginPage(SecurityConstants.DEFAULT_UNAUTHENTICATION_URL)
-                // 登录处理的url，也就是form表单提交时指定的action
+                  /**
+                   * 登录处理的url，也就是form表单提交时指定的action
+                   * 映射到UsernamePasswordAuthenticationFilter的filterProcessesUrl属性。默认值是“/ login”
+                   */
                 .loginProcessingUrl(SecurityConstants.DEFAULT_SIGN_IN_PROCESSING_URL_FORM)
                 // 认证成功处理器
                 .successHandler(iAuthenticationSuccessHandler)

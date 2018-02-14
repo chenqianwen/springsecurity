@@ -1,4 +1,4 @@
-package com.example.security.core.social;
+package com.example.security.core.social.support;
 
 import com.example.security.core.social.support.SocialAuthenticationFilterPostProcessor;
 import lombok.Getter;
@@ -6,9 +6,10 @@ import lombok.Setter;
 import org.springframework.social.security.SocialAuthenticationFilter;
 import org.springframework.social.security.SpringSocialConfigurer;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 继承默认的社交登录配置，加入自定义的后处理逻辑
  */
 public class ISpringSocialConfigurer extends SpringSocialConfigurer {
 

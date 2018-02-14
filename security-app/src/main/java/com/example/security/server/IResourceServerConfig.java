@@ -1,6 +1,7 @@
-package com.example.security.app;
+package com.example.security.server;
 
-import com.example.security.app.social.openid.OpenIdAuthenticationSecurityConfig;
+import com.example.security.app.authentication.openid.OpenIdAuthenticationSecurityConfig;
+import com.example.security.core.authentication.FormAuthenticationConfig;
 import com.example.security.core.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.example.security.core.authorize.AuthorizeConfigManager;
 import com.example.security.core.properties.SecurityProperties;
@@ -15,7 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.social.security.SpringSocialConfigurer;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * 资源服务器
@@ -48,27 +49,30 @@ public class IResourceServerConfig extends ResourceServerConfigurerAdapter{
     @Autowired
     private AuthorizeConfigManager authorizeConfigManager;
 
+    @Autowired
+    private FormAuthenticationConfig formAuthenticationConfig;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
+
+        // 表单认证配置
+        formAuthenticationConfig.configure(http);
+
         http
+            // 验证码的配置
             .apply(validateCodeSecurityConfig)
                 .and()
+            // 验证码认证的配置
             .apply(smsCodeAuthenticationSecurityConfig)
                   .and()
+            // 社交的配置
             .apply(iSpringSocialConfigurer)
                   .and()
+            // openId认证的配置
             .apply(openIdAuthenticationSecurityConfig)
                   .and()
-            .formLogin()
-            .loginPage("/authentication/require")// 指定的登录页面Url
-            .loginProcessingUrl("/authentication/form")//登录请求拦截的url,也就是form表单提交时指定的action
-            .successHandler(iAuthenticationSuccessHandler)//表单登陆之后调用自定义的 认证成功处理器
-            .failureHandler(iAuthenticationFailureHandler)//表单登陆之后调用自定义的 认证失败处理器
-            .and()
-            .authorizeRequests()
-            .and()
-            .csrf().disable()//禁用跨站请求伪造功能
+           //禁用跨站请求伪造功能
+            .csrf().disable()
         ;
         authorizeConfigManager.config(http.authorizeRequests());
     }

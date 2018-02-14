@@ -4,16 +4,20 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
+ * 社交登录配置项
  */
 @Data
 public class SocialProperties {
 
+    /**
+     * 社交登录功能拦截的url
+     */
     private String filterProcessesUrl = "/auth";
 
-    private QQProperties  qq = new QQProperties();
+    private QqProperties  qq = new QqProperties();
 
     private WeixinProperties weixin = new WeixinProperties();
 

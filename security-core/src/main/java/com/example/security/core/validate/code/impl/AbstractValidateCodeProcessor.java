@@ -9,7 +9,7 @@ import org.springframework.web.context.request.ServletWebRequest;
 
 import java.util.Map;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  *
@@ -44,9 +44,9 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
      */
     @Override
     public void create(ServletWebRequest request) throws Exception{
-        // 生成代码
+        // 生成
         C validateCode = generate(request);
-        // 保存到session中
+        // 保存
         save(request,validateCode);
         //  发送出去
         send(request,validateCode);
@@ -117,7 +117,7 @@ public abstract class AbstractValidateCodeProcessor<C extends ValidateCode> impl
         // 获取验证码 对应的form 的参数名称
         String paramNameOnValidate = codeType.getParamNameOnValidate();
 
-        // 通过请求获取Session中的 具体的验证码实现类
+        // 通过请求获取存储的 具体的验证码实现类
         C codeInSession = (C) validateCodeRepository.get(request, codeType);
 
         String codeInRequest;

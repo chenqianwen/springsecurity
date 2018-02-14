@@ -7,7 +7,7 @@ import org.hibernate.validator.constraints.NotBlank;
 import java.util.Date;
 
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */

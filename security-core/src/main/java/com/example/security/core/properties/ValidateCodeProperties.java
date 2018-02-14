@@ -4,7 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  * 验证码配置
@@ -12,7 +12,12 @@ import lombok.Setter;
 @Data
 public class ValidateCodeProperties {
 
+    /**
+     * 图片验证码配置
+     */
     private ImageCodeProperties image = new ImageCodeProperties();
-
+    /**
+     * 短信验证码配置
+     */
     private SmsCodeProperties sms = new SmsCodeProperties();
 }

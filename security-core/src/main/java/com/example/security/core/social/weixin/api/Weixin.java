@@ -1,6 +1,6 @@
 package com.example.security.core.social.weixin.api;
 /**
- * @author： yl
+ * @author： ygl
  * @date： 2018/2/7-13:07
  * @Description：
  */
