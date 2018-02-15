@@ -1,13 +1,13 @@
-package com.example.security.rbac;
+package com.example.security.rbac.service;
 
 import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
+
 /**
  * @author： ygl
- * @date： 2018/2/7-13:07
+ * @date： 2018/2/15
  * @Description：
- * role_based access control
  */
 public interface RbacService {
 
